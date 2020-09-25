@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20sp"
         android:text="Erstellen"
+        android:layout_marginHorizontal="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -69,8 +70,9 @@
         android:id="@+id/createbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
-        android:layout_marginHorizontal="20sp"
+        android:layout_marginBottom="25sp"
+        android:layout_marginHorizontal="25sp"
+        android:textSize="20sp"
         android:text="@string/createButtonText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
