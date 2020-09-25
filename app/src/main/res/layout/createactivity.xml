@@ -33,6 +33,7 @@
 
 
         <EditText
+            android:id="@+id/nameofactivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/activity_name"
@@ -42,6 +43,7 @@
         </EditText>
 
         <TextView
+            android:id="@+id/daily"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tageswert"
@@ -58,11 +60,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20sp"
-        android:layout_marginRight="20sp"
         android:text="Erstellen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <Button
+        android:id="@+id/createbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+    </Button>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
