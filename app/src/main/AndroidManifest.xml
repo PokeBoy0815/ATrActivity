@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateActivity"></activity>
-        <activity android:name=".Overwiew"></activity>
+        <activity android:name=".Overview"></activity>
     </application>
 
 </manifest>
