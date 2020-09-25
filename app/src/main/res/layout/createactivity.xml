@@ -18,36 +18,19 @@ To-Do:
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!--<androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" /> -->
-
-    </com.google.android.material.appbar.AppBarLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/fab"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        >
 
 
         <EditText
             android:id="@+id/nameofactivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/activity_name"
+            android:hint="@string/activity_name"
             android:textAlignment="center"
             android:textSize="30sp">
 
