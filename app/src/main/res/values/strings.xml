@@ -14,5 +14,6 @@
     <string name="tageswert">Tageswert</string>
     <string name="activity_name">Name der Aktivität</string>
     <string name="createButtonText">Erstellen</string>
+    <string name="colorschosingstring">Farbe</string>
     <string name="heute">Heute</string>
 </resources>
