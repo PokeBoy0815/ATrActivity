@@ -2,15 +2,16 @@ package com.example.atractivity.Data;
 
 import android.graphics.Color;
 
-public class activity_item {
+/* class for the items that we use  as data structure for "activities" in our app*/
+
+public class ActivityItem {
 
     private String activityName;
     private boolean min, alertSet;
-    private int hours, minutes = 0;
-    private Color color;
+    private int hours, minutes, color = 0;
 
 
-    public activity_item(String activityName, boolean min, int hours, int minutes, Color color, boolean alertSet){
+    public ActivityItem(String activityName, boolean min, int hours, int minutes, int color, boolean alertSet){
         this.activityName = activityName;
         this.min = min;
         this.hours = hours;
@@ -35,7 +36,7 @@ public class activity_item {
         return minutes;
     }
 
-    public Color getColor() {
+    public int getColor() {
         return color;
     }
 
@@ -63,7 +64,7 @@ public class activity_item {
         this.minutes = minutes;
     }
 
-    public void setColor(Color color) {
+    public void setColor(int color) {
         this.color = color;
     }
 
