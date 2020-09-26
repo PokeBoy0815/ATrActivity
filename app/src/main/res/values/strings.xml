@@ -16,4 +16,9 @@
     <string name="createButtonText">Erstellen</string>
     <string name="colorschosingstring">Farbe</string>
     <string name="heute">Heute</string>
+    <string name="hoursedit">00</string>
+    <string name="text_hours">Stunden</string>
+    <string name="text_minutes">Minuten</string>
+    <string name="text_min">Minimal</string>
+    <string name="text_max">Maximal</string>
 </resources>

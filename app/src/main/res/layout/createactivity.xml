@@ -27,14 +27,113 @@ To-Do:
 
 
         <EditText
+            android:layout_marginTop="20sp"
             android:id="@+id/nameofactivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/activity_name"
             android:textAlignment="center"
-            android:textSize="30sp">
+            android:textSize="30sp"
+            android:inputType="text"
+            >
 
         </EditText>
+
+        <TextView
+            android:id="@+id/daily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10sp"
+            android:text="@string/tageswert"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="30sp">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            >
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:textSize="30sp"
+                android:text="@string/text_min"
+                android:layout_marginLeft="25sp"
+                />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="35"
+                android:textSize="30sp"
+                android:text="@string/text_max"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/hoursedit"
+                android:textSize="30sp"
+                android:layout_marginLeft="25sp"
+                android:layout_marginRight="10sp"
+                android:inputType="number"
+                android:maxLength="2"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_hours"
+                android:textColor="#000000"
+                android:textSize="30sp" />
+
+
+            <EditText
+                android:layout_marginLeft="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/hoursedit"
+                android:textSize="30sp"
+                android:layout_marginHorizontal="10sp"
+                android:inputType="number"
+                android:maxLength="2"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_minutes"
+                android:textColor="#000000"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/colortext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10sp"
+            android:text="@string/colorschosingstring"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="30sp">
+
+        </TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,25 +203,7 @@ To-Do:
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/colortext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/colorschosingstring"
-            android:textAlignment="center"
-            android:textSize="30sp">
 
-        </TextView>
-
-        <TextView
-            android:id="@+id/daily"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tageswert"
-            android:textAlignment="center"
-            android:textSize="30sp">
-
-        </TextView>
 
 
     </LinearLayout>
