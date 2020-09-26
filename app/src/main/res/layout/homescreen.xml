@@ -40,6 +40,7 @@ To-Do:
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
         <ListView
+            android:id="@+id/activity_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -49,9 +50,9 @@ To-Do:
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_gravity="center"
             android:id="@+id/Change"
-
+            android:text="Hinzufügen"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout" />

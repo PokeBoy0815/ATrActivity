@@ -14,14 +14,21 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class Homescreen extends AppCompatActivity {
 
     private Button button;
+    private ListView activityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildUI();
+
+    }
+
+    private void buildUI() {
         setContentView(R.layout.homescreen);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,8 +41,7 @@ public class Homescreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
+        activityList = findViewById(R.id.activity_list);
     }
 
     @Override

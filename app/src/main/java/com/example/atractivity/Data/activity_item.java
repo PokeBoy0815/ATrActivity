@@ -9,6 +9,7 @@ public class activity_item {
     private int hours, minutes = 0;
     private Color color;
 
+
     public activity_item(String activityName, boolean min, int hours, int minutes, Color color, boolean alertSet){
         this.activityName = activityName;
         this.min = min;
@@ -41,4 +42,31 @@ public class activity_item {
     public boolean isAlertSet() {
         return alertSet;
     }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+    public void setMin(boolean min) {
+        this.min = min;
+    }
+
+    public void setAlertSet(boolean alertSet) {
+        this.alertSet = alertSet;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+
+
 }
