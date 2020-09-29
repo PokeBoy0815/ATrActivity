@@ -1,14 +1,16 @@
 package com.example.atractivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.os.Bundle;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.ActivityItemAdapter;
 import com.example.atractivity.Data.ReturnKeys;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,12 +21,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class Homescreen extends AppCompatActivity {
 
-    private Button button;
+    //private Button button;
     private ListView activityList;
 
     private ArrayList<ActivityItem> activities;
@@ -52,6 +55,7 @@ public class Homescreen extends AppCompatActivity {
         activities = new ArrayList<>();
         ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         activities.add(ai1);
+        //activityitemadapter.notifyDataSetChanged();
 
     }
 
@@ -62,7 +66,7 @@ public class Homescreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //Button to get the Activity Data
-        button = findViewById(R.id.Change);
+        Button button = findViewById(R.id.Change);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +83,32 @@ public class Homescreen extends AppCompatActivity {
         Intent intent = new Intent(Homescreen.this, CreateActivity.class);
         startActivityForResult(intent, ReturnKeys.KEY_TO_RETURN_ACTIVITY);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ReturnKeys.KEY_TO_RETURN_ACTIVITY:
+                if (resultCode == Activity.RESULT_OK) {
+                    if(data != null) {
+                        addActivityFromData(data);
+                    }
+                }
+        }
+    }
+
+    private void addActivityFromData(@NotNull Intent data) {
+        String activityName =  data.getExtras().getString(ReturnKeys.NAME_KEY);
+        boolean min = data.getExtras().getBoolean(ReturnKeys.MIN_KEY);
+        int hours = data.getExtras().getInt(ReturnKeys.HOUR_KEY);
+        int minutes = data.getExtras().getInt(ReturnKeys.MINUTES_KEY);
+        int color = data.getExtras().getInt(ReturnKeys.COLOR_KEY);
+        boolean alertSet = data.getExtras().getBoolean(ReturnKeys.ALERT_KEY);
+        ActivityItem aitem = new ActivityItem(activityName, min, hours, minutes, color, alertSet);
+        activities.add(aitem);
+        activityitemadapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

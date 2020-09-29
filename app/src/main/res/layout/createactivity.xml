@@ -20,22 +20,21 @@ To-Do:
 
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
 
         <EditText
-            android:layout_marginTop="20sp"
             android:id="@+id/nameofactivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
             android:hint="@string/activity_name"
-            android:textAlignment="center"
-            android:textSize="30sp"
             android:inputType="text"
-            >
+            android:textAlignment="center"
+            android:textSize="30sp">
 
         </EditText>
 
@@ -51,32 +50,31 @@ To-Do:
 
         </TextView>
 
-        <LinearLayout
+        <RadioGroup
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="100"
-            >
-
-            <CheckBox
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginVertical="10sp"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/minbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="35"
-                android:textSize="30sp"
-                android:text="@string/text_min"
-                android:layout_marginLeft="25sp"
-                />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="35"
-                android:textSize="30sp"
+                android:layout_marginLeft="30sp"
+                android:layout_marginRight="10sp"
                 android:text="@string/text_max"
-                />
+                android:textSize="30sp"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/maxbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_max"
+                android:textSize="30sp"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked"/>
 
-        </LinearLayout>
 
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,15 +82,15 @@ To-Do:
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/hoursedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/hoursedit"
-                android:textSize="30sp"
                 android:layout_marginLeft="25sp"
                 android:layout_marginRight="10sp"
+                android:hint="@string/hoursedit"
                 android:inputType="number"
                 android:maxLength="2"
-                />
+                android:textSize="30sp" />
 
             <TextView
 
@@ -102,17 +100,16 @@ To-Do:
                 android:textColor="#000000"
                 android:textSize="30sp" />
 
-
             <EditText
-                android:layout_marginLeft="30sp"
+                android:id="@+id/minutesedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/hoursedit"
-                android:textSize="30sp"
                 android:layout_marginHorizontal="10sp"
+                android:layout_marginLeft="30sp"
+                android:hint="@string/hoursedit"
                 android:inputType="number"
                 android:maxLength="2"
-                />
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,89 +132,71 @@ To-Do:
 
         </TextView>
 
-        <LinearLayout
+        <RadioGroup
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
+            android:layout_marginHorizontal="10sp"
             android:orientation="horizontal">
-
-            <!-- Radio buttons statt check boxen? -->
-            <CheckBox
+            <RadioButton android:id="@+id/option1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
+                android:layout_height="wrap_content"
                 android:background="#FFEB3B"
-                android:backgroundTint="#FFEB3B"
-                android:buttonTint="#000000">
-
-            </CheckBox>
-
-            <CheckBox
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="10sp"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/option2"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
-                android:background="@android:color/holo_orange_dark">
-
-            </CheckBox>
-
-            <CheckBox
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_orange_dark"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/option3"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
-                android:background="@android:color/holo_red_dark">
-
-            </CheckBox>
-
-            <CheckBox
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_dark"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/option4"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
-                android:background="@android:color/holo_purple">
-
-            </CheckBox>
-
-            <CheckBox
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_purple"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/option5"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
-                android:background="@android:color/holo_blue_dark">
-
-            </CheckBox>
-
-            <CheckBox
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked" />
+            <RadioButton android:id="@+id/option6"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
-                android:background="@android:color/holo_blue_bright">
-
-            </CheckBox>
-
-            <CheckBox
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_bright"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/option7"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="13sp"
-                android:background="@android:color/holo_green_light">
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_green_light"
+                android:layout_marginHorizontal="10sp"
+                android:onClick="onRadioButtonClicked"/>
 
-            </CheckBox>
-
-
-        </LinearLayout>
-
-
+        </RadioGroup>
 
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+    <CheckBox
+        android:id="@+id/notification_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20sp"
-        android:text="Erstellen"
-        android:layout_marginHorizontal="20sp"
+        android:layout_marginHorizontal="25sp"
+        android:layout_marginBottom="25sp"
+        android:text="@string/notification_text"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/createbutton"
