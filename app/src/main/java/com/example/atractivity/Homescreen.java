@@ -2,11 +2,13 @@ package com.example.atractivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.ActivityItemAdapter;
+import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.Data.ReturnKeys;
 
 import androidx.annotation.NonNull;
@@ -27,11 +29,16 @@ import java.util.ArrayList;
 
 public class Homescreen extends AppCompatActivity {
 
+    //experimaental firstrun Stuff
+    SharedPreferences prefs = null;
+
     //private Button button;
     private ListView activityList;
 
     private ArrayList<ActivityItem> activities;
     private ActivityItemAdapter activityitemadapter;
+
+    private ActivityItemDatabaseHelper dbsh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class Homescreen extends AppCompatActivity {
         fetchTestData();
         adapterStuff();
 
-
+        prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
 
     }
 
@@ -131,4 +138,17 @@ public class Homescreen extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    //experimental Stuff to set standard activities in database
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (prefs.getBoolean("firstrun", true)) {
+            // Do first run stuff here then set 'firstrun' as false
+            // using the following line to edit/commit prefs
+            prefs.edit().putBoolean("firstrun", false).commit();
+        }
+    }
+
 }

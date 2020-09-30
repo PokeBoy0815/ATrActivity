@@ -2,10 +2,15 @@ package com.example.atractivity.Data;
 
 import android.graphics.Color;
 
-/* class for the items that we use  as data structure for "activities" in our app*/
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+/* class for the items that we use  as data structure for "activities" in our app*/
+@Entity
 public class ActivityItem {
 
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
     private String activityName;
     private boolean min, alertSet;
     private int hours, minutes, color = 0;
@@ -18,6 +23,14 @@ public class ActivityItem {
         this.minutes = minutes;
         this.color = color;
         this.alertSet = alertSet;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getActivityName() {
