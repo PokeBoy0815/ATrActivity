@@ -13,11 +13,14 @@ import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.ActivityItemAdapter;
 import com.example.atractivity.R;
 
+import java.util.List;
+
 public class ActivityItemAdapterBase extends BaseAdapter{
 
     private ActivityItemDatabaseHelper databaseHelper;
     private Context context;
     private ActivityItem activityItem;
+    private int view = R.id.activitylistitem;
 
     public ActivityItemAdapterBase(Context context, ActivityItemDatabaseHelper databaseHelper) {
         this.databaseHelper = databaseHelper;
@@ -43,6 +46,11 @@ public class ActivityItemAdapterBase extends BaseAdapter{
     public View getView(int i, View view, @NonNull ViewGroup viewGroup) {
 
         databaseHelper.getActivityItemByUID(i, new ActivityItemQueryResultListener() {
+            @Override
+            public void onListResult(List<ActivityItem> list){
+
+            }
+
             @Override
             public void onResult(ActivityItem aitem) {
                 activityItem = aitem;

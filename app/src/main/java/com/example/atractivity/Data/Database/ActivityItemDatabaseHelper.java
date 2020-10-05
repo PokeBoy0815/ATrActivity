@@ -6,6 +6,8 @@ import androidx.room.Room;
 
 import com.example.atractivity.Data.ActivityItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class ActivityItemDatabaseHelper {
@@ -52,6 +54,11 @@ public class ActivityItemDatabaseHelper {
     //searches ActivityItems by their id
     public void getActivityItemByUID(int id, ActivityItemQueryResultListener listener) {
         FindActivityItemByIdTask task = new FindActivityItemByIdTask(id, listener);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    public void getAllItemsFromRoom(ActivityItemQueryResultListener listener){
+        getAllItemsTask task = new getAllItemsTask(listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
 
@@ -124,6 +131,30 @@ public class ActivityItemDatabaseHelper {
                 public void run() {
                     // Rückmeldung an den Listener mit dem gefundenen Objekt aus der Datenbank
                     listener.onResult(activityitem);
+                }
+            });
+        }
+    }
+
+    private class getAllItemsTask implements Runnable {
+
+        private int uid;
+        private ActivityItemQueryResultListener listener;
+
+        public getAllItemsTask(ActivityItemQueryResultListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void run() {
+            // Ausführen der Datenbankoperation
+            final List<ActivityItem> activityitems = db.activityitems().getAllItems();
+            // Wechsel in den UI Thread, nach dem die Datenbankoperation durchgelaufen ist
+            activityContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Rückmeldung an den Listener mit dem gefundenen Objekt aus der Datenbank
+                    listener.onListResult(activityitems);
                 }
             });
         }

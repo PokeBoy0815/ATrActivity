@@ -6,6 +6,9 @@ import androidx.room.Query;
 
 import com.example.atractivity.Data.ActivityItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Dao
 public interface ActivityItemDAO {
@@ -22,7 +25,8 @@ public interface ActivityItemDAO {
     @Query("SELECT * FROM activityitem WHERE uid = :id")
     ActivityItem getAItemByUID(int id);
 
-    //@Query("SELECT  FROM activityitem")
+    @Query("SELECT * FROM activityitem")
+    List<ActivityItem> getAllItems();
 
 
 
