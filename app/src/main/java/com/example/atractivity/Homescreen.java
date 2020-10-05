@@ -21,6 +21,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -59,6 +60,13 @@ public class Homescreen extends AppCompatActivity {
         //activityitemadapter = new ActivityItemAdapter(this, activities);
         activityItemAdapterBase = new ActivityItemAdapterBase(this, databaseHelper);
         activityList.setAdapter(activityItemAdapterBase);
+        activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //activate or deactivate Time-Machine
+
+            }
+        });
     }
 
     //Method that is now in a Test state but will be used to get standard activities
