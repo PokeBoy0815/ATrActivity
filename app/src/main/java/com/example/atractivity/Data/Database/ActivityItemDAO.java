@@ -22,6 +22,8 @@ public interface ActivityItemDAO {
     @Query("SELECT * FROM activityitem WHERE uid = :id")
     ActivityItem getAItemByUID(int id);
 
+    //@Query("SELECT  FROM activityitem")
+
 
 
 }

@@ -11,7 +11,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.atractivity.Data.Database.ActivityItemDatabase;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.R;
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.ActivityItemAdapter;
+import com.example.atractivity.Data.Database.ActivityItemAdapterBase;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.Data.ReturnKeys;
 
@@ -32,13 +33,15 @@ public class Homescreen extends AppCompatActivity {
     //experimaental firstrun Stuff
     SharedPreferences prefs = null;
 
+    //
+    private ActivityItemDatabaseHelper databaseHelper;
+
     //private Button button;
     private ListView activityList;
 
     private ArrayList<ActivityItem> activities;
     private ActivityItemAdapter activityitemadapter;
-
-    private ActivityItemDatabaseHelper dbsh;
+    private ActivityItemAdapterBase activityItemAdapterBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +56,17 @@ public class Homescreen extends AppCompatActivity {
 
     //initializes the adapter for the list of Activities
     private void adapterStuff() {
-        activityitemadapter = new ActivityItemAdapter(this, activities);
-        activityList.setAdapter(activityitemadapter);
+        //activityitemadapter = new ActivityItemAdapter(this, activities);
+        activityItemAdapterBase = new ActivityItemAdapterBase(this, databaseHelper);
+        activityList.setAdapter(activityItemAdapterBase);
     }
 
     //Method that is now in a Test state but will be used to get standard activities
     private void fetchTestData() {
         activities = new ArrayList<>();
         ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
-        activities.add(ai1);
+        databaseHelper.addActivityItemToDatabase(ai1);
+        //activities.add(ai1);
         //activityitemadapter.notifyDataSetChanged();
 
     }
