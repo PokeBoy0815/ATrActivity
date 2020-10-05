@@ -138,7 +138,6 @@ public class ActivityItemDatabaseHelper {
 
     private class getAllItemsTask implements Runnable {
 
-        private int uid;
         private ActivityItemQueryResultListener listener;
 
         public getAllItemsTask(ActivityItemQueryResultListener listener) {

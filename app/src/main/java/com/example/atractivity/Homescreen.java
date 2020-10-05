@@ -46,9 +46,10 @@ public class Homescreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildUI();
         fetchTestData();
         adapterStuff();
-        buildUI();
+
     }
 
     //initializes the adapter for the list of Activities
@@ -61,6 +62,7 @@ public class Homescreen extends AppCompatActivity {
     private void fetchTestData() {
         activities = new ArrayList<>();
         ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
+        databaseHelper = new ActivityItemDatabaseHelper(this);
         databaseHelper.addActivityItemToDatabase(ai1);
         databaseHelper.getAllItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
@@ -73,7 +75,7 @@ public class Homescreen extends AppCompatActivity {
                 activities.addAll(aitems);
             }
         });
-        activityitemadapter.notifyDataSetChanged();
+        //activityitemadapter.notifyDataSetChanged();
 
     }
 
