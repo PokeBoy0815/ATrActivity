@@ -10,6 +10,7 @@ import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.ActivityItemAdapter;
 import com.example.atractivity.Data.Database.ActivityItemAdapterBase;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.Data.ReturnKeys;
 
 import androidx.annotation.NonNull;
@@ -27,11 +28,10 @@ import android.widget.ListView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Homescreen extends AppCompatActivity {
 
-    //experimaental firstrun Stuff
-    SharedPreferences prefs = null;
 
     //
     private ActivityItemDatabaseHelper databaseHelper;
@@ -41,24 +41,20 @@ public class Homescreen extends AppCompatActivity {
 
     private ArrayList<ActivityItem> activities;
     private ActivityItemAdapter activityitemadapter;
-    private ActivityItemAdapterBase activityItemAdapterBase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buildUI();
         fetchTestData();
         adapterStuff();
-
-        prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
-
+        buildUI();
     }
 
     //initializes the adapter for the list of Activities
     private void adapterStuff() {
-        //activityitemadapter = new ActivityItemAdapter(this, activities);
-        activityItemAdapterBase = new ActivityItemAdapterBase(this, databaseHelper);
-        activityList.setAdapter(activityItemAdapterBase);
+        activityitemadapter = new ActivityItemAdapter(this, activities);
+        activityList.setAdapter(activityitemadapter);
     }
 
     //Method that is now in a Test state but will be used to get standard activities
@@ -66,8 +62,18 @@ public class Homescreen extends AppCompatActivity {
         activities = new ArrayList<>();
         ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         databaseHelper.addActivityItemToDatabase(ai1);
-        //activities.add(ai1);
-        //activityitemadapter.notifyDataSetChanged();
+        databaseHelper.getAllItemsFromRoom(new ActivityItemQueryResultListener() {
+            @Override
+            public void onResult(ActivityItem aitem) {
+
+            }
+
+            @Override
+            public void onListResult(List<ActivityItem> aitems) {
+                activities.addAll(aitems);
+            }
+        });
+        activityitemadapter.notifyDataSetChanged();
 
     }
 
@@ -144,16 +150,5 @@ public class Homescreen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //experimental Stuff to set standard activities in database
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (prefs.getBoolean("firstrun", true)) {
-            // Do first run stuff here then set 'firstrun' as false
-            // using the following line to edit/commit prefs
-            prefs.edit().putBoolean("firstrun", false).commit();
-        }
-    }
 
 }
