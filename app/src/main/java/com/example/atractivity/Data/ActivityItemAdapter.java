@@ -20,11 +20,9 @@ public class ActivityItemAdapter extends ArrayAdapter<ActivityItem> {
 
 
     private ArrayList<ActivityItem> items;
-    private ActivityItemDatabaseHelper databaseHelper;
 
     public ActivityItemAdapter(@NonNull Context context, ArrayList<ActivityItem> items) {
         super(context, R.layout.activity_list_item, items);
-        this.databaseHelper = databaseHelper;
         this.items = items;
     }
 

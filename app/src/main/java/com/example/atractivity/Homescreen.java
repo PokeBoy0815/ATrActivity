@@ -22,6 +22,7 @@ import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -47,23 +48,30 @@ public class Homescreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buildUI();
-        fetchTestData();
         adapterStuff();
+        fetchTestData();
 
     }
 
     //initializes the adapter for the list of Activities
     private void adapterStuff() {
+        activities = new ArrayList<>();
         activityitemadapter = new ActivityItemAdapter(this, activities);
         activityList.setAdapter(activityitemadapter);
+        activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //activate or deactivate Time-Machine
+
+            }
+        });
     }
 
     //Method that is now in a Test state but will be used to get standard activities
     private void fetchTestData() {
-        activities = new ArrayList<>();
         ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         databaseHelper = new ActivityItemDatabaseHelper(this);
-        databaseHelper.addActivityItemToDatabase(ai1);
+        //databaseHelper.addActivityItemToDatabase(ai1);
         databaseHelper.getAllItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
             public void onResult(ActivityItem aitem) {
@@ -75,8 +83,7 @@ public class Homescreen extends AppCompatActivity {
                 activities.addAll(aitems);
             }
         });
-        //activityitemadapter.notifyDataSetChanged();
-
+        activityitemadapter.notifyDataSetChanged();
     }
 
     //Builds th User Interface from Xml and java objects
@@ -126,6 +133,7 @@ public class Homescreen extends AppCompatActivity {
         boolean alertSet = data.getExtras().getBoolean(ReturnKeys.ALERT_KEY);
         ActivityItem aitem = new ActivityItem(activityName, min, hours, minutes, color, alertSet);
         activities.add(aitem);
+        databaseHelper.addActivityItemToDatabase(aitem);
         activityitemadapter.notifyDataSetChanged();
     }
 
