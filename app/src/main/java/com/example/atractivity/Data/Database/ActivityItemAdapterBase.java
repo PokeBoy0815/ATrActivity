@@ -15,6 +15,11 @@ import com.example.atractivity.R;
 
 import java.util.List;
 
+/**
+ * experimental adapter class, that is neever used bc it was easier to use a list adapter
+ */
+
+
 public class ActivityItemAdapterBase extends BaseAdapter{
 
     private ActivityItemDatabaseHelper databaseHelper;

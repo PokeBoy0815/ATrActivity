@@ -84,9 +84,9 @@ public class Homescreen extends AppCompatActivity {
         });
     }
 
-    //Method that is now in a Test state but will be used to get standard activities
+    /** Method that puts all ActivityItem objects into an arryList so we can use the arreyListAdapter*/
     private void fetchDatabaseData() {
-        ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
+        //ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         databaseHelper = new ActivityItemDatabaseHelper(this);
         //databaseHelper.addActivityItemToDatabase(ai1);
         databaseHelper.getAllItemsFromRoom(new ActivityItemQueryResultListener() {
@@ -103,7 +103,7 @@ public class Homescreen extends AppCompatActivity {
         });
     }
 
-    //Builds th User Interface from Xml and java objects
+    /** Builds th User Interface from Xml and java objects */
     private void buildUI() {
         setContentView(R.layout.homescreen);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -121,8 +121,10 @@ public class Homescreen extends AppCompatActivity {
         activityList = findViewById(R.id.activity_list);
     }
 
-    //method to handle the click on the button to start the activity that will allow the user to create a activity
-    // with wanting a result
+    /**
+    method to handle the click on the button to start the activity that will allow the user to create a activity
+     with wanting a result
+    */
     private void getActivity() {
         Intent intent = new Intent(Homescreen.this, CreateActivity.class);
         startActivityForResult(intent, ReturnKeys.KEY_TO_RETURN_ACTIVITY);
@@ -141,6 +143,7 @@ public class Homescreen extends AppCompatActivity {
         }
     }
 
+    /**creates and adds an item from the extras of the input activity*/
     private void addActivityFromData(@NotNull Intent data) {
         String activityName =  data.getExtras().getString(ReturnKeys.NAME_KEY);
         boolean min = data.getExtras().getBoolean(ReturnKeys.MIN_KEY);

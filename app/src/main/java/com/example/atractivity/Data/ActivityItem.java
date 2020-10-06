@@ -1,12 +1,14 @@
 package com.example.atractivity.Data;
 
-import android.graphics.Color;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/* class for the items that we use  as data structure for "activities" in our app*/
+/**
+ *  class for the items that we use  as data structure for "activities" in our app
+ *  contains no column info as we always handle the items as objects in the main activity/actions
+ */
+
 @Entity
 public class ActivityItem {
 

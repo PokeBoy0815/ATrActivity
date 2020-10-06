@@ -16,7 +16,7 @@ public class ActivityItemDatabaseHelper {
 
     private final Activity activityContext;
 
-    /*
+    /**
      */
     public ActivityItemDatabaseHelper(Activity activityContext) {
         this.activityContext = activityContext;
@@ -48,20 +48,18 @@ public class ActivityItemDatabaseHelper {
 
         @Override
         public void run() {
-            // Ausführen der Datenbankoperation
             final ActivityItem activityitem = db.activityitems().getAItemByName(activityName);
-            // Wechsel in den UI Thread, nach dem die Datenbankoperation durchgelaufen ist
             activityContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Rückmeldung an den Listener mit dem gefundenen Objekt aus der Datenbank
                     listener.onResult(activityitem);
                 }
             });
         }
     }
 
-    //searches ActivityItems by their id
+    /**searches ActivityItems by their id*/
+
     public void getActivityItemByUID(int id, ActivityItemQueryResultListener listener) {
         FindActivityItemByIdTask task = new FindActivityItemByIdTask(id, listener);
         Executors.newSingleThreadExecutor().submit(task);
@@ -79,13 +77,11 @@ public class ActivityItemDatabaseHelper {
 
         @Override
         public void run() {
-            // Ausführen der Datenbankoperation
             final ActivityItem activityitem = db.activityitems().getAItemByUID(uid);
-            // Wechsel in den UI Thread, nach dem die Datenbankoperation durchgelaufen ist
+
             activityContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Rückmeldung an den Listener mit dem gefundenen Objekt aus der Datenbank
                     listener.onResult(activityitem);
                 }
             });
@@ -111,13 +107,10 @@ public class ActivityItemDatabaseHelper {
 
         @Override
         public void run() {
-            // Ausführen der Datenbankoperation
             final List<ActivityItem> activityitems = db.activityitems().getAllItems();
-            // Wechsel in den UI Thread, nach dem die Datenbankoperation durchgelaufen ist
             activityContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Rückmeldung an den Listener mit dem gefundenen Objekt aus der Datenbank
                     listener.onListResult(activityitems);
                 }
             });
@@ -129,9 +122,7 @@ public class ActivityItemDatabaseHelper {
      creates a new task to seperate the action from the main thread
      */
     public void addActivityItemToDatabase(ActivityItem activityitem) {
-        // Erstellt den Task, in dem die Datenbankoperation ausgeführt werden soll
         AddActivityItemTask task = new AddActivityItemTask(activityitem);
-        //new thread
         Executors.newSingleThreadExecutor().submit(task);
     }
 
@@ -154,9 +145,8 @@ public class ActivityItemDatabaseHelper {
      creates a new task to seperate the action from the main thread
      */
     public void deleteActivityItemFromDatabase(ActivityItem activityitem) {
-        // Erstellt den Task, in dem die Datenbankoperation ausgeführt werden soll
+
         DeleteActivityItemTask task = new DeleteActivityItemTask(activityitem);
-        //new thread
         Executors.newSingleThreadExecutor().submit(task);
     }
 

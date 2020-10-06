@@ -9,12 +9,13 @@ import com.example.atractivity.Data.ActivityItem;
 
 import java.util.List;
 
+/** doa for data base metahods */
 
 @Dao
 public interface ActivityItemDAO {
 
 
-    // Einfaches Einfügen des übergebenen Objekts in die Datenbank.
+    // ad items to db.
     @Insert
     void addActivityItem(ActivityItem activityitems);
 
