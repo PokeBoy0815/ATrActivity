@@ -1,6 +1,8 @@
 package com.example.atractivity.Data;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +49,33 @@ public class ActivityItemAdapter extends ArrayAdapter<ActivityItem> {
             nameView.setText(item.getActivityName());
             timeView.setText(getTimeText(item));
 
+            itemView.setBackgroundColor(getColor(item));
+
         }
         return itemView;
+    }
+
+    private int getColor(ActivityItem item) {
+        int color = item.getColor();
+        switch (color) {
+            case 1:
+               return Color.parseColor("#FFEB3B");
+            case 2:
+                return Color.parseColor("holo_orange_dark");
+            case 3:
+                return Color.parseColor("#FFCC0000");
+            case 4:
+                return Color.parseColor("#FFAA66CC");
+            case 5:
+                return Color.parseColor("#FF0099CC");
+            case 6:
+                return Color.parseColor("#FF00DDFF");
+            case 7:
+                return Color.parseColor("#FF99CC00");
+            default:
+                return Color.parseColor("#FFCC0000");
+        }
+
     }
 
     private String getTimeText(ActivityItem item) {

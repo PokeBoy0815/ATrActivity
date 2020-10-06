@@ -3,7 +3,6 @@ package com.example.atractivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -19,12 +18,12 @@ public class CreateActivity extends AppCompatActivity {
 
 
     // boolean value that will determine if the time is min or max for the result
-    private boolean minOrMax;
-    private int colorCode = 0;
+    private boolean minOrMax = true;
+    private int colorCode = 1;
 
     private EditText activityName, hours, minutes;
     private Button creatinButton;
-    //private CheckBox notificationButton;
+    private CheckBox notificationButton;
 
 
     @Override
@@ -42,13 +41,15 @@ public class CreateActivity extends AppCompatActivity {
         hours = findViewById(R.id.hoursedit);
         minutes = findViewById(R.id.minutesedit);
 
-        /*notificationButton = findViewById(R.id.notification_button);
+
+        notificationButton = findViewById(R.id.notification_button);
+        notificationButton.setChecked(true);
         notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkIfCheckedAndUncheck(notificationButton);
+                checkIfCheckedAndUncheck();
             }
-        });*/
+        });
 
         creatinButton = findViewById(R.id.createbutton);
         creatinButton.setOnClickListener(new View.OnClickListener() {
@@ -60,12 +61,12 @@ public class CreateActivity extends AppCompatActivity {
 
     }
 
-    private void checkIfCheckedAndUncheck(CheckBox mbutton) {
-        if(mbutton.isChecked()){
-            mbutton.setChecked(false);
+    private void checkIfCheckedAndUncheck() {
+        if(notificationButton.isChecked()){
+            notificationButton.setChecked(true);
         }
-        if(!mbutton.isChecked()){
-            mbutton.setChecked(true);
+        else {
+            notificationButton.setChecked(false);
         }
 
     }
@@ -75,12 +76,14 @@ public class CreateActivity extends AppCompatActivity {
     * else there will be an error massage and termination without data
     * */
     private void returnActivityDataOnCall() {
-        String name = activityName.getText().toString();
+        String name = getActivityName();
         boolean min = minOrMax;
         int hourreader = getInputAsInteger(hours);
         int minutesreader = getInputAsInteger(minutes);
         int givencolor = colorCode;
-        boolean alertset = true;
+        boolean alertset;
+        if (notificationButton.isChecked()) alertset = true;
+        else alertset = false;
         Intent dataActivity = new Intent();
         dataActivity.putExtra(ReturnKeys.NAME_KEY, name);
         dataActivity.putExtra(ReturnKeys.MIN_KEY, min);
@@ -92,11 +95,21 @@ public class CreateActivity extends AppCompatActivity {
         finish();
     }
 
-    private int getInputAsInteger(EditText input) {
-        if (input.getText() == null) {
-            return 0;
+    private String getActivityName() {
+        if(activityName.getText().toString().equals("")){
+            return "Unnamed Activity";
+        } else {
+            return activityName.getText().toString();
         }
-        return Integer.parseInt(input.getText().toString());
+    }
+
+    private int getInputAsInteger(EditText input) {
+        if (input.getText().toString().equals("")) {
+            return 0;
+        } else {
+            return Integer.parseInt(input.getText().toString());
+        }
+
     }
 
     public void onRadioButtonClicked(View view) {
