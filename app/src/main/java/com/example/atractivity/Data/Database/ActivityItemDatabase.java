@@ -4,7 +4,6 @@ import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
 import com.example.atractivity.Data.ActivityItem;
-import com.example.atractivity.Data.Database.ActivityItemDAO;
 
 @Database(entities = {ActivityItem.class, DaylyChoreCount.class}, version = 1)
 public abstract class ActivityItemDatabase extends RoomDatabase {

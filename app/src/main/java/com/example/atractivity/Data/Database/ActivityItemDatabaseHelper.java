@@ -6,7 +6,6 @@ import androidx.room.Room;
 
 import com.example.atractivity.Data.ActivityItem;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -17,9 +16,7 @@ public class ActivityItemDatabaseHelper {
 
     private final Activity activityContext;
 
-    /**
-     * Dem Konstruktor der Hilfsklasse wird eine Activity als Parameter übergeben, damit deren
-     * Kontext für die Erstellung bzw. Bereitstellung der Datenbank verwendet werden kann.
+    /*
      */
     public ActivityItemDatabaseHelper(Activity activityContext) {
         this.activityContext = activityContext;
@@ -31,61 +28,14 @@ public class ActivityItemDatabaseHelper {
     }
 
     /**
-     * Wird von anderen Teilen der Anwendung aufgerufen, um das übergebene Friend-Objekt in der
-     * Datenbank zu speichern.
-     */
-    public void addActivityItemToDatabase(ActivityItem activityitem) {
-        // Erstellt den Task, in dem die Datenbankoperation ausgeführt werden soll
-        AddActivityItemTask task = new AddActivityItemTask(activityitem);
-        // Führt den Task in einem neuen Thread durch
-        Executors.newSingleThreadExecutor().submit(task);
-    }
-
-    /**
-     * Wird von anderen Teilen der Anwendung aufgerufen, um eine Suche nach dem Friend-Objekt mit
-     * dem übergebenen Namen in der Datenbank zu starten. Nach Abschluss der Anfrage wird das Ergebnis
-     * an den übergebenen Listener gesendet.
+     Method to search and return ActivityItem objects in the db
+     opens a new thread to seperate from main thread
      */
     public void getActivityItemByName(String name, ActivityItemQueryResultListener listener) {
         FindActivityItemTask task = new FindActivityItemTask(name, listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
 
-    //searches ActivityItems by their id
-    public void getActivityItemByUID(int id, ActivityItemQueryResultListener listener) {
-        FindActivityItemByIdTask task = new FindActivityItemByIdTask(id, listener);
-        Executors.newSingleThreadExecutor().submit(task);
-    }
-
-    public void getAllItemsFromRoom(ActivityItemQueryResultListener listener){
-        getAllItemsTask task = new getAllItemsTask(listener);
-        Executors.newSingleThreadExecutor().submit(task);
-    }
-
-    /**
-     * Diese Runnable kapselt den, nebenläufig durchzuführenden, Vorgang des Hinzufügens eines neuen
-     * Datenbankeintrags. Das zuspeichernde Objekt wird dem Task im Konstruktor übergeben.
-     */
-    private class AddActivityItemTask implements Runnable {
-
-        private ActivityItem activityitem;
-
-        public AddActivityItemTask(ActivityItem activityitem) {
-            this.activityitem = activityitem;
-        }
-
-        @Override
-        public void run() {
-            db.activityitems().addActivityItem(activityitem);
-        }
-    }
-
-    /**
-     * Diese Runnable kapselt den, nebenläufig durchzuführenden, Vorgang des Heraussuchens eines
-     * Eintrags aus der Datenbank. Der Name, anhand dessen der Eintrag identifiziert werden soll,
-     * wird dem Task im Konstruktor übergeben. Zusätzlich wird dem Task ein Listener übergeben, der
-     * über das Ergebniss der Suche informiert werden soll.
-     */
     private class FindActivityItemTask implements Runnable {
 
         private String activityName;
@@ -109,6 +59,12 @@ public class ActivityItemDatabaseHelper {
                 }
             });
         }
+    }
+
+    //searches ActivityItems by their id
+    public void getActivityItemByUID(int id, ActivityItemQueryResultListener listener) {
+        FindActivityItemByIdTask task = new FindActivityItemByIdTask(id, listener);
+        Executors.newSingleThreadExecutor().submit(task);
     }
 
     private class FindActivityItemByIdTask implements Runnable {
@@ -136,6 +92,15 @@ public class ActivityItemDatabaseHelper {
         }
     }
 
+    /**
+    returns all db sheet entrys of activity items as list
+    creates a new task to seperate the action from the main thread
+    */
+    public void getAllItemsFromRoom(ActivityItemQueryResultListener listener){
+        getAllItemsTask task = new getAllItemsTask(listener);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
     private class getAllItemsTask implements Runnable {
 
         private ActivityItemQueryResultListener listener;
@@ -156,6 +121,56 @@ public class ActivityItemDatabaseHelper {
                     listener.onListResult(activityitems);
                 }
             });
+        }
+    }
+
+    /**
+     Method that is use to safe ActivityItem objects in the datebase
+     creates a new task to seperate the action from the main thread
+     */
+    public void addActivityItemToDatabase(ActivityItem activityitem) {
+        // Erstellt den Task, in dem die Datenbankoperation ausgeführt werden soll
+        AddActivityItemTask task = new AddActivityItemTask(activityitem);
+        //new thread
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class AddActivityItemTask implements Runnable {
+
+        private ActivityItem activityitem;
+
+        public AddActivityItemTask(ActivityItem activityitem) {
+            this.activityitem = activityitem;
+        }
+
+        @Override
+        public void run() {
+            db.activityitems().addActivityItem(activityitem);
+        }
+    }
+
+    /**
+     Method that is use to safe ActivityItem objects in the datebase
+     creates a new task to seperate the action from the main thread
+     */
+    public void deleteActivityItemFromDatabase(ActivityItem activityitem) {
+        // Erstellt den Task, in dem die Datenbankoperation ausgeführt werden soll
+        DeleteActivityItemTask task = new DeleteActivityItemTask(activityitem);
+        //new thread
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class DeleteActivityItemTask implements Runnable {
+
+        private ActivityItem activityitem;
+
+        public DeleteActivityItemTask(ActivityItem activityitem) {
+            this.activityitem = activityitem;
+        }
+
+        @Override
+        public void run() {
+            db.activityitems().delete(activityitem);
         }
     }
 

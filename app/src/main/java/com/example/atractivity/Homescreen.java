@@ -1,6 +1,7 @@
 package com.example.atractivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.Data.ReturnKeys;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -30,12 +32,13 @@ import java.util.List;
 public class Homescreen extends AppCompatActivity {
 
 
-    //
+    //Instance of databaseHelper for communication with room
     private ActivityItemDatabaseHelper databaseHelper;
 
     //private Button button;
     private ListView activityList;
 
+    //
     private ArrayList<ActivityItem> activities;
     private ActivityItemAdapter activityitemadapter;
 
@@ -45,7 +48,7 @@ public class Homescreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         buildUI();
         adapterStuff();
-        fetchTestData();
+        fetchDatabaseData();
 
     }
 
@@ -64,14 +67,25 @@ public class Homescreen extends AppCompatActivity {
         activityList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //activate Delete?
+                AlertDialog.Builder adb=new AlertDialog.Builder(Homescreen.this);
+                adb.setTitle("Delete?");
+                adb.setMessage("Are you sure you want to delete " + i);
+                final int positionToRemove = i;
+                adb.setNegativeButton("Cancel", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        databaseHelper.deleteActivityItemFromDatabase(activities.get(positionToRemove));
+                        activities.remove(positionToRemove);
+                        activityitemadapter.notifyDataSetChanged();
+                    }});
+                adb.show();
                 return false;
             }
         });
     }
 
     //Method that is now in a Test state but will be used to get standard activities
-    private void fetchTestData() {
+    private void fetchDatabaseData() {
         ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         databaseHelper = new ActivityItemDatabaseHelper(this);
         //databaseHelper.addActivityItemToDatabase(ai1);
@@ -84,9 +98,9 @@ public class Homescreen extends AppCompatActivity {
             @Override
             public void onListResult(List<ActivityItem> aitems) {
                 activities.addAll(aitems);
+                activityitemadapter.notifyDataSetChanged();
             }
         });
-        activityitemadapter.notifyDataSetChanged();
     }
 
     //Builds th User Interface from Xml and java objects

@@ -61,7 +61,7 @@ public class ActivityItemAdapter extends ArrayAdapter<ActivityItem> {
         int hours = item.getHours();
         int minutes = item.getMinutes();
 
-        return  min +" "+ hours +" Stunde und "+ minutes +" Minuten";
+        return  min +" "+ hours +" Stunde(n) und "+ minutes +" Minuten";
     }
 
 
