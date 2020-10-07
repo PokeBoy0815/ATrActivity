@@ -12,10 +12,6 @@ import androidx.annotation.Nullable;
 
 public class ActivityTimerReceiver extends Service {
 
-    @Override
-    public void onCreate(){
-        super.onCreate();
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID){
