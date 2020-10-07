@@ -1,9 +1,30 @@
 package com.example.atractivity.background;
 
-//extends services? -> skript hintergrundprozesse
+//background process, which will not be closed when the app gets closed.
+//maybe use "IntentService" instead of "Service"?
+//https://www.linkedin.com/pulse/service-vs-intentservice-android-anwar-samir
 
-public class ActivityTimerReceiver {
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 
+import androidx.annotation.Nullable;
 
+public class ActivityTimerReceiver extends Service {
 
+    @Override
+    public void onCreate(){
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startID){
+        return START_STICKY;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }
