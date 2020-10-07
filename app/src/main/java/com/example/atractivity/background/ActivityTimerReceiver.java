@@ -14,11 +14,12 @@ public class ActivityTimerReceiver extends Service {
 
     @Override
     public void onCreate(){
-
+        super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID){
+        super.onStartCommand(intent, flags, startID);
         return START_STICKY;
     }
 
@@ -26,5 +27,10 @@ public class ActivityTimerReceiver extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }
