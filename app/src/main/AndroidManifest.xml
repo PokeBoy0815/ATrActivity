@@ -22,7 +22,7 @@
         <activity android:name=".CreateActivity"></activity>
         <activity android:name=".Overview"></activity>
 
-        <service android:name=".background.ActivityTimerReceiver" />
+        <service android:name=".broadcast.ActivityTimerReceiver" />
     </application>
 
 </manifest>
