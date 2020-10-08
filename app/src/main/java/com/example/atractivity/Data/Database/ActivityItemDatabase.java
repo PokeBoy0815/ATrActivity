@@ -12,4 +12,5 @@ import com.example.atractivity.Data.ActivityItem;
 @Database(entities = {ActivityItem.class, DaylyTimeCount.class}, version = 1)
 public abstract class ActivityItemDatabase extends RoomDatabase {
     public abstract ActivityItemDAO activityitems();
+    public abstract DailyTimeCountDAO timecounts();
 }

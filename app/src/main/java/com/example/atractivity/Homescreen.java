@@ -92,7 +92,7 @@ public class Homescreen extends AppCompatActivity {
         //ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         databaseHelper = new ActivityItemDatabaseHelper(this);
         //databaseHelper.addActivityItemToDatabase(ai1);
-        databaseHelper.getAllItemsFromRoom(new ActivityItemQueryResultListener() {
+        databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
             public void onResult(ActivityItem aitem) {
 
