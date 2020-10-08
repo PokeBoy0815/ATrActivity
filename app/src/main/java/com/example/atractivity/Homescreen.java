@@ -60,8 +60,11 @@ public class Homescreen extends AppCompatActivity {
         activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //activate or deactivate Time-Machine
-
+                /*boolean activeTimerDoesExist = false; (muss in die Klasse)
+                * int activeTimerNumber;
+                * if (!activeTimerDoesExist){start timer; activeTimerNumber = i;}
+                * else if (i != activeTimerNumber) {stop timer; start timer; activeTimerNumber = i;}
+                * else {stop timer}*/
             }
         });
         activityList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -84,7 +87,7 @@ public class Homescreen extends AppCompatActivity {
         });
     }
 
-    /** Method that puts all ActivityItem objects into an arryList so we can use the arreyListAdapter*/
+    /** Method that puts all ActivityItem objects into an arrayList so we can use the arrayListAdapter*/
     private void fetchDatabaseData() {
         //ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
         databaseHelper = new ActivityItemDatabaseHelper(this);

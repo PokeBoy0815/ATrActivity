@@ -6,16 +6,25 @@ package com.example.atractivity.background;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
 public class ActivityTimerReceiver extends Service {
 
+    /*private final IBinder mBinder = new LocalBinder();
+
+    public class LocalBinder extends Binder{
+        ActivityTimerReceiver getService(){
+            return ActivityTimerReceiver.this;
+        }
+    }*/
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID){
         super.onStartCommand(intent, flags, startID);
+        //while (timeLimit-startTime >0) true do {wait} else {benachrichtigung}
         return START_STICKY;
     }
 
