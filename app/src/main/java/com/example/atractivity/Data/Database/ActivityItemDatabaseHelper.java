@@ -189,18 +189,18 @@ public class ActivityItemDatabaseHelper {
 
     /**returnes the sum of minutes in all items of a certain name at a certain time*/
 
-    public void getDailyTimeCount(int id, ActivityItemQueryResultListener listener) {
-        FindActivityItemByIdTask task = new FindActivityItemByIdTask(id, listener);
+    public void getDailyTimeCount(long date, String name, DailyTimeCountQueryResultListener listener) {
+        GetDailyTimeCountTimeSumTask task = new GetDailyTimeCountTimeSumTask(date, name, listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
 
     private class GetDailyTimeCountTimeSumTask implements Runnable {
 
-        private int date;
+        private long date;
         private String name;
         private DailyTimeCountQueryResultListener listener;
 
-        public GetDailyTimeCountTimeSumTask(int date, String name, DailyTimeCountQueryResultListener listener) {
+        public GetDailyTimeCountTimeSumTask(long date, String name, DailyTimeCountQueryResultListener listener) {
             this.date = date;
             this.name = name;
             this.listener = listener;
