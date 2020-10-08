@@ -92,7 +92,7 @@ public class ActivityItemDatabaseHelper {
     returns all db sheet entrys of activity items as list
     creates a new task to seperate the action from the main thread
     */
-    public void getAllItemsFromRoom(ActivityItemQueryResultListener listener){
+    public void getAllActivityItemsFromRoom(ActivityItemQueryResultListener listener){
         getAllItemsTask task = new getAllItemsTask(listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
@@ -161,6 +161,89 @@ public class ActivityItemDatabaseHelper {
         @Override
         public void run() {
             db.activityitems().delete(activityitem);
+        }
+    }
+
+    /**
+     Method that is use to safe DailyTimeCount objects in the datebase
+     creates a new task to seperate the action from the main thread
+     */
+    public void addDailyTimeCountToDatabase(DaylyTimeCount daylyTimeCount) {
+        AddDailytimeCountTask task = new AddDailytimeCountTask(daylyTimeCount);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class AddDailytimeCountTask implements Runnable {
+
+        private DaylyTimeCount daylyTimeCount;
+
+        public AddDailytimeCountTask(DaylyTimeCount daylyTimeCount) {
+            this.daylyTimeCount = daylyTimeCount;
+        }
+
+        @Override
+        public void run() {
+            db.timecounts().adDailyTimeCount(daylyTimeCount);
+        }
+    }
+
+    /**returnes the sum of minutes in all items of a certain name at a certain time*/
+
+    public void getDailyTimeCount(int id, ActivityItemQueryResultListener listener) {
+        FindActivityItemByIdTask task = new FindActivityItemByIdTask(id, listener);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class GetDailyTimeCountTimeSumTask implements Runnable {
+
+        private int date;
+        private String name;
+        private DailyTimeCountQueryResultListener listener;
+
+        public GetDailyTimeCountTimeSumTask(int date, String name, DailyTimeCountQueryResultListener listener) {
+            this.date = date;
+            this.name = name;
+            this.listener = listener;
+        }
+
+        @Override
+        public void run() {
+            final int minutes = db.timecounts().getDailyTimeByDate(date, name);
+
+            activityContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onTimeResult(minutes);
+                }
+            });
+        }
+    }
+
+/** return all time count items of one day in a List*/
+    public void getAllTimeItemsOfADay(long date, DailyTimeCountQueryResultListener listener){
+        getAllTimeItemsOfOneDayTask task = new getAllTimeItemsOfOneDayTask(date, listener);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class getAllTimeItemsOfOneDayTask implements Runnable {
+
+        private DailyTimeCountQueryResultListener listener;
+        private long date;
+
+        public getAllTimeItemsOfOneDayTask(long date, DailyTimeCountQueryResultListener listener) {
+            this.listener = listener;
+            this.date = date;
+        }
+
+        @Override
+        public void run() {
+            final List<DaylyTimeCount> timeItems = db.timecounts().getAllDailyTimeCountsOfaDay(date);
+            activityContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onListResult(timeItems);
+                }
+            });
         }
     }
 
