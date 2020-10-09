@@ -11,16 +11,17 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
 
 
 public class ActivityTimerService extends Service {
-    public static final String NOTIFICATION_CHANNEL_ID = "EGG_TIMER_CHANNEL_ID";
-    public static final String NOTIFICATION_CHANNEL_NAME = "EggTimer Channel";
-    public static final String NOTIFICATION_CHANNEL_DESCRIPTION= "Notification channel for EggTimer";
-    public static  final String EGG_ORDER_EXTRA_KEY = "EGG_ORDER";
+    //public static final String NOTIFICATION_CHANNEL_ID = "EGG_TIMER_CHANNEL_ID";
+    //public static final String NOTIFICATION_CHANNEL_NAME = "EggTimer Channel";
+    //public static final String NOTIFICATION_CHANNEL_DESCRIPTION= "Notification channel for EggTimer";
+    public static  final String ACTIVITY_EXTRA_KEY = "ACTIVITY";
 
-    private static int currentNotificationID = 0;
+    //private static int currentNotificationID = 0;
 
     @Nullable
     @Override
@@ -38,25 +39,27 @@ public class ActivityTimerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         return super.onStartCommand(intent, flags, startId);
     }
 
 
-    /*private void broadcastTimerUpdate(int remainingTimeInSeconds) {
+    private void broadcastTimerUpdate(int remainingTimeInSeconds) {
         Intent intent = ActivityTimerBroadcastReceiver.getUpdateIntent(remainingTimeInSeconds);
         sendBroadcast(intent);
-
     }
 
     private void broadcastTimerFinished() {
         Intent intent = ActivityTimerBroadcastReceiver.getEndIntent();
         sendBroadcast(intent);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.notify(getCurrentNotificationID(), getNotificationForFinishedTimer());
+        //NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        //notificationManager.notify(getCurrentNotificationID(), getNotificationForFinishedTimer());
         this.stopSelf();
     }
 
-    private int getCurrentNotificationID() {
+    /**
+     * die folgenden methoden sind für systemnotifikation wenn eine activity die zeit erreicht hat*/
+  /*private int getCurrentNotificationID() {
         currentNotificationID++;
         return currentNotificationID;
     }

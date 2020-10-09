@@ -4,13 +4,15 @@ package com.example.atractivity.Data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  *  class for the items that we use  as data structure for "activities" in our app
  *  contains no column info as we always handle the items as objects in the main activity/actions
  */
 
 @Entity
-public class ActivityItem {
+public class ActivityItem implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int uid;

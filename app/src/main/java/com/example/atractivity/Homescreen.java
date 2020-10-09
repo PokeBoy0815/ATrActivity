@@ -10,6 +10,10 @@ import com.example.atractivity.Data.ActivityItemAdapter;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.Data.ReturnKeys;
+import com.example.atractivity.broadcast.ActivityTimerBroadcastListener;
+import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
+import com.example.atractivity.timer.ActivityTimer;
+import com.example.atractivity.timer.ActivityTimerService;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -29,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Homescreen extends AppCompatActivity {
+public class Homescreen extends AppCompatActivity implements ActivityTimerBroadcastListener {
 
 
     //Instance of databaseHelper for communication with room
@@ -42,6 +46,8 @@ public class Homescreen extends AppCompatActivity {
     private ArrayList<ActivityItem> activities;
     private ActivityItemAdapter activityitemadapter;
 
+    private ActivityTimerBroadcastReceiver broadcastReceiver;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,18 @@ public class Homescreen extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerBroadcastReceiver();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterBroadcastReceiver();
+    }
+
     //initializes the adapter for the list of Activities
     private void adapterStuff() {
         activities = new ArrayList<>();
@@ -60,6 +78,8 @@ public class Homescreen extends AppCompatActivity {
         activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ActivityItem activityItem = new ActivityItem(null,false,0,0,0,true);
+                startActivity(activityItem);
                 /*boolean activeTimerDoesExist = false; (muss in die Klasse)
                 * int activeTimerNumber;
                 * if (!activeTimerDoesExist){start timer; activeTimerNumber = i;}
@@ -183,5 +203,35 @@ public class Homescreen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void startActivity(ActivityItem activityItem){
+        Intent intent = new Intent (this, ActivityTimerService.class);
+        intent.putExtra(ActivityTimerService.ACTIVITY_EXTRA_KEY, activityItem);
+        startService(intent);
+    }
 
+    /*register and unregister broadcast reciever*/
+    private void registerBroadcastReceiver() {
+        unregisterBroadcastReceiver();
+        broadcastReceiver = new ActivityTimerBroadcastReceiver(this);
+        this.registerReceiver(broadcastReceiver, ActivityTimerBroadcastReceiver.getIntentFilter());
+    }
+
+    private void unregisterBroadcastReceiver() {
+        if (broadcastReceiver != null) {
+            this.unregisterReceiver(broadcastReceiver);
+            broadcastReceiver = null;
+        }
+    }
+
+
+    @Override
+    public void onTimerUpdate(int remainingTimeInSeconds) {
+        //time got updated  (original für zeitanzeige im overlay, bei uns für update der zeit in der datenbank)
+    }
+
+    @Override
+    public void onTimerFinished() {
+        int remainingTimeInSeconds = 0;
+        //time is finished (siehe ontimerupdate)
+    }
 }
