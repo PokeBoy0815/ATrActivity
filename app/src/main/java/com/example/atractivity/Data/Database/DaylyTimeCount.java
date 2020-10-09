@@ -8,7 +8,8 @@ import java.util.Calendar;
 @Entity
 public class DaylyTimeCount {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int dailyId;
     private long date;
     //should be derived from the ActivityItems name, to which it belongs
     private String nameOfActivity;
@@ -39,11 +40,19 @@ public class DaylyTimeCount {
         this.date = date;
     }
 
-    public String getName() {
+    public String getNameOfActivity() {
         return nameOfActivity;
     }
 
-    public void setName(String name) {
-        this.nameOfActivity = name;
+    public void setName(String nameOfActivity) {
+        this.nameOfActivity = nameOfActivity;
+    }
+
+    public int getDailyId() {
+        return dailyId;
+    }
+
+    public void setDailyId(int dailyId) {
+        this.dailyId = dailyId;
     }
 }
