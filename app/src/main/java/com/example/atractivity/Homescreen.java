@@ -79,7 +79,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ActivityItem activityItem = new ActivityItem(null,false,0,0,0,true);
+                ActivityItem activityItem = activities.get(i);
                 startActivity(activityItem);
                 /*boolean activeTimerDoesExist = false; (muss in die Klasse)
                 * int activeTimerNumber;
