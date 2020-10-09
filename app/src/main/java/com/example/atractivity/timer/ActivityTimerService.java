@@ -25,6 +25,7 @@ public class ActivityTimerService extends Service {
 
     private static int currentNotificationID = 0;
 
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

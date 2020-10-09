@@ -211,7 +211,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
     @Override
     public void onTimerFinished() {
         int remainingTimeInSeconds = 0;
-        //time is finished (siehe ontimerupdate)
+
     }
 
     @Override

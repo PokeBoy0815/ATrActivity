@@ -36,4 +36,6 @@ public class ActivityTimer implements Runnable {
             scheduledTimerFuture.cancel(true);
         }
     }
+
+
 }
