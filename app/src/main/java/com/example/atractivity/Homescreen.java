@@ -84,6 +84,9 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
                 ActivityItem activityItem = activities.get(i);
                 startActivity(activityItem);
                 }
+                else {
+                    stopActivity();
+                }
                 /*boolean activeTimerDoesExist = false; (muss in die Klasse)
                 * int activeTimerNumber;
                 * if (!activeTimerDoesExist){start timer; activeTimerNumber = i;}
