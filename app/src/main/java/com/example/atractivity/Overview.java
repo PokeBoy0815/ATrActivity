@@ -8,15 +8,33 @@ import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+
+import java.util.Calendar;
+
 public class Overview extends AppCompatActivity {
 
+    private long currentDate;
+
+    private ActivityItemDatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.overview);
+        initUI();
+        initData();
 
 
+
+    }
+
+    private void initData() {
+        databaseHelper = new ActivityItemDatabaseHelper(this);
+        currentDate = Calendar.getInstance().getTimeInMillis();
+    }
+
+    private void initUI() {
 
     }
 
@@ -44,4 +62,14 @@ public class Overview extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /** Vergleichen zweier calendar objekte ob sie am selben tag sind
+     * Calendar cal1 = Calendar.getInstance();
+     * Calendar cal2 = Calendar.getInstance();
+     * cal1.setTime(date1);
+     * cal2.setTime(date2);
+     * boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+     *                   cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+     *
+     * */
 }

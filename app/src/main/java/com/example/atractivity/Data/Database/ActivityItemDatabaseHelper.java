@@ -246,6 +246,9 @@ public class ActivityItemDatabaseHelper {
             });
         }
     }
+    /**
+     * sets the time column for a certain object to the time that is given to the method
+     * */
     public void setTimeForCertainObject(long date, String nameOfActivity, int time){
         SetTimeForCertainObjectTask task = new SetTimeForCertainObjectTask(nameOfActivity, date, time);
         Executors.newSingleThreadExecutor().submit(task);
