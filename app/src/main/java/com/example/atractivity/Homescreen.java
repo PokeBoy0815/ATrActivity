@@ -15,6 +15,7 @@ import com.example.atractivity.broadcast.ActivityTimerBroadcastListener;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
 import com.example.atractivity.timer.ActivityTimer;
 import com.example.atractivity.timer.ActivityTimerService;
+import com.example.atractivity.timer.IsRunning;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -79,8 +80,10 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (IsRunning.testRunning() == false){
                 ActivityItem activityItem = activities.get(i);
                 startActivity(activityItem);
+                }
                 /*boolean activeTimerDoesExist = false; (muss in die Klasse)
                 * int activeTimerNumber;
                 * if (!activeTimerDoesExist){start timer; activeTimerNumber = i;}
@@ -186,6 +189,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         Intent intent = new Intent (this, ActivityTimerService.class);
         intent.putExtra(ActivityTimerService.ACTIVITY_EXTRA_KEY, activityItem);
         startService(intent);
+        IsRunning.setRunning();
     }
 
     /*register and unregister broadcast reciever*/
@@ -210,6 +214,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     @Override
     public void onTimerFinished() {
+        IsRunning.setNotRunning();
         int remainingTimeInSeconds = 0;
 
     }

@@ -17,10 +17,10 @@ public interface DailyTimeCountDAO {
     void adDailyTimeCount(DaylyTimeCount timeCount);
 
 
-    /* Query items which belong to one activity
-    @Query("SELECT * FROM daylytimecount WHERE nameOfActivity = :activityitemName")
-    List<DaylyTimeCount> getAllItemsByName(String activityitemName);
-    */
+    //Query items which belong to one activity
+    @Query("UPDATE daylytimecount SET minutes = 'Texas' WHERE ID = 6; nameOfActivity = :activityitemName")
+    DaylyTimeCount getItemFromRoom(String activityitemName);
+
 
     //query TimeObjects by date
     @Query("SELECT * FROM daylytimecount WHERE date = :dateOfItem")
@@ -30,8 +30,9 @@ public interface DailyTimeCountDAO {
     @Query("SELECT Count(minutes) FROM daylytimecount WHERE date = :dateOfItem AND nameOfActivity = :activityitemName")
     int getDailyTimeByDate(long dateOfItem, String activityitemName);
 
-    /**
+
     @Delete
     void delete(DaylyTimeCount timeCount);
-    */
+
+
 }

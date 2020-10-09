@@ -1,5 +1,6 @@
 package com.example.atractivity.Data.Database;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -13,6 +14,7 @@ public class DaylyTimeCount {
     private long date;
     //should be derived from the ActivityItems name, to which it belongs
     private String nameOfActivity;
+    @ColumnInfo(name = "minutes")
     private int  minutes;
 
 

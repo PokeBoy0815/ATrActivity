@@ -8,5 +8,4 @@ public interface DailyTimeCountQueryResultListener {
 
     void onListResult(List<DaylyTimeCount> timeCounts);
     void onTimeResult(int minutes);
-
 }
