@@ -3,7 +3,6 @@ package com.example.atractivity.timer;
 import com.example.atractivity.Data.ActivityItem;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +23,10 @@ public class ActivityTimer implements Runnable {
 
     public void start(){
         scheduledTimerFuture = Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(this,DEFAULT_DELAY, DEFAULT_DELAY, DEFAULT_TIME_UNIT);
+    }
+
+    public void stop(){
+        scheduledTimerFuture.cancel(true);
     }
 
     @Override

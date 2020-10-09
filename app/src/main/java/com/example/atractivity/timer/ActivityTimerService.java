@@ -24,6 +24,7 @@ public class ActivityTimerService extends Service {
     public static  final String ACTIVITY_EXTRA_KEY = "ACTIVITY";
 
     private static int currentNotificationID = 0;
+    private ActivityTimer timer;
 
 
     @Nullable
@@ -42,7 +43,7 @@ public class ActivityTimerService extends Service {
 
     @Override
     public void onDestroy() {
-
+        timer.stop();
         super.onDestroy();
     }
 
@@ -54,7 +55,7 @@ public class ActivityTimerService extends Service {
     }
 
     private void startTimerForActivity(ActivityItem activityItem){
-        ActivityTimer timer = new ActivityTimer(activityItem, new ActivityTimerListener() {
+        timer = new ActivityTimer(activityItem, new ActivityTimerListener() {
             @Override
             public void onUpdate(int remainingTimeInSeconds) {
                 broadcastTimerUpdate(remainingTimeInSeconds);
