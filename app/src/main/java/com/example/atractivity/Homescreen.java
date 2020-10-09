@@ -1,6 +1,7 @@
 package com.example.atractivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -228,8 +229,9 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.home) {
+            Intent intent = new Intent(Homescreen.this, Homescreen.class);
+            startActivity(intent);
         }
         if (id == R.id.stats) {
             Intent intent = new Intent(Homescreen.this, Overview.class);

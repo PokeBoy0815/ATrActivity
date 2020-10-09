@@ -22,4 +22,5 @@
     <string name="text_min">Minimal</string>
     <string name="text_max">Maximal</string>
     <string name="notification_text">Notify my</string>
+    <string name="home_text">Home</string>
 </resources>

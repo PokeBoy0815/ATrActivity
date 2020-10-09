@@ -19,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateActivity"></activity>
-        <activity android:name=".Overview"></activity>
+        <activity android:name=".CreateActivity" />
+        <activity android:name=".Overview" />
 
         <service android:name=".broadcast.ActivityTimerReceiver" />
     </application>
