@@ -188,6 +188,11 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         startService(intent);
     }
 
+    private void stopActivity(){
+        Intent intent = new Intent (this, ActivityTimerService.class);
+        stopService(intent);
+    }
+
     /*register and unregister broadcast reciever*/
     private void registerBroadcastReceiver() {
         unregisterBroadcastReceiver();

@@ -41,6 +41,12 @@ public class ActivityTimerService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ActivityItem activityItem = (ActivityItem) intent.getSerializableExtra(ACTIVITY_EXTRA_KEY);
         startTimerForActivity(activityItem);
