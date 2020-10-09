@@ -43,6 +43,7 @@ public class ActivityTimerService extends Service {
 
     @Override
     public void onDestroy() {
+        broadcastTimerStopped();
         timer.stop();
         super.onDestroy();
     }
@@ -82,6 +83,13 @@ public class ActivityTimerService extends Service {
         this.stopSelf();
     }
 
+    private void broadcastTimerStopped(){
+        Intent intent = ActivityTimerBroadcastReceiver.getEndIntent();
+        sendBroadcast(intent);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.notify(getCurrentNotificationID(), getNotificationForStoppedTimer());
+    }
+
     /**
      * die folgenden methoden sind für systemnotifikation wenn eine activity die zeit/das ziel erreicht hat*/
   private int getCurrentNotificationID() {
@@ -116,6 +124,18 @@ public class ActivityTimerService extends Service {
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(getText(R.string.timer_finished_notification_title))
                 .setContentText(getText(R.string.timer_finished_notification_text))
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentIntent(pendingIntent)
+                .build();
+        return notification;
+    }
+
+    private Notification getNotificationForStoppedTimer(){
+        Intent notificationIntent = new Intent(this, Homescreen.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setContentTitle(getText(R.string.timer_stopped_notification_title))
+                .setContentText(getText(R.string.timer_stopped_notification_text))
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)
                 .build();
