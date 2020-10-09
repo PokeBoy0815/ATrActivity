@@ -6,14 +6,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Build;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.example.atractivity.Data.ActivityItem;
+import com.example.atractivity.Homescreen;
+import com.example.atractivity.R;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
 
 
@@ -31,12 +31,12 @@ public class ActivityTimerService extends Service {
         return null;
     }
 
-    @Override
+        @Override
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
-        //Notification foregroundNotification = getNotificationForForegroundService();
-        //startForeground(getCurrentNotificationID(), foregroundNotification);
+        Notification foregroundNotification = getNotificationForForegroundService();
+        startForeground(getCurrentNotificationID(), foregroundNotification);
     }
 
     @Override
@@ -69,19 +69,18 @@ public class ActivityTimerService extends Service {
     private void broadcastTimerFinished() {
         Intent intent = ActivityTimerBroadcastReceiver.getEndIntent();
         sendBroadcast(intent);
-        //NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        //notificationManager.notify(getCurrentNotificationID(), getNotificationForFinishedTimer());
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.notify(getCurrentNotificationID(), getNotificationForFinishedTimer());
         this.stopSelf();
     }
 
     /**
-     * die folgenden methoden sind für systemnotifikation wenn eine activity die zeit erreicht hat*/
-  /*private int getCurrentNotificationID() {
+     * die folgenden methoden sind für systemnotifikation wenn eine activity die zeit/das ziel erreicht hat*/
+  private int getCurrentNotificationID() {
         currentNotificationID++;
         return currentNotificationID;
-    }*/
+    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createNotificationChannel() {
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
@@ -90,13 +89,13 @@ public class ActivityTimerService extends Service {
 
     }
 
-    /*private Notification getNotificationForForegroundService() {
-        Intent notificationIntent = new Intent(this, EggTimerActivity.class);
+    private Notification getNotificationForForegroundService() {
+        Intent notificationIntent = new Intent(this, Homescreen.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(getText(R.string.foreground_notification_title))
                 .setContentText(getText(R.string.foreground_notification_text))
-                .setSmallIcon(R.drawable.ic_timer_icon_foreground)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)
                 .setTicker(getText(R.string.foreground_notification_ticker))
                 .build();
@@ -104,15 +103,15 @@ public class ActivityTimerService extends Service {
     }
 
     private Notification getNotificationForFinishedTimer() {
-        Intent notificationIntent = new Intent(this, EggTimerActivity.class);
+        Intent notificationIntent = new Intent(this, Homescreen.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(getText(R.string.timer_finished_notification_title))
                 .setContentText(getText(R.string.timer_finished_notification_text))
-                .setSmallIcon(R.drawable.ic_timer_icon_foreground)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)
                 .build();
         return notification;
-    }*/
+    }
 
 }

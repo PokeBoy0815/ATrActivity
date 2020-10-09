@@ -23,4 +23,9 @@
     <string name="text_max">Maximal</string>
     <string name="notification_text">Notify my</string>
     <string name="home_text">Home</string>
+    <string name="foreground_notification_title">A TrActivity</string>
+    <string name="foreground_notification_text">Timer für Activity läuft.</string>
+    <string name="foreground_notification_ticker">Weiter machen!</string>
+    <string name="timer_finished_notification_title">Fertig!</string>
+    <string name="timer_finished_notification_text">Die Zeit ist vorbei. Beende deine Aktivität.</string>
 </resources>
