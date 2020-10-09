@@ -17,9 +17,9 @@ public interface DailyTimeCountDAO {
     void adDailyTimeCount(DaylyTimeCount timeCount);
 
 
-    //Query items which belong to one activity
-    @Query("UPDATE daylytimecount SET minutes = 'Texas' WHERE ID = 6; nameOfActivity = :activityitemName")
-    DaylyTimeCount getItemFromRoom(String activityitemName);
+    //Set time saved in a certain Object to a certain time
+    @Query("UPDATE daylytimecount SET minutes = :time WHERE  date = :dateOfItem AND nameOfActivity = :activityitemName")
+    void setTimeOfOtem(String activityitemName, long dateOfItem, int time);
 
 
     //query TimeObjects by date

@@ -246,5 +246,26 @@ public class ActivityItemDatabaseHelper {
             });
         }
     }
+    public void setTimeForCertainObject(long date, String nameOfActivity, int time){
+        SetTimeForCertainObjectTask task = new SetTimeForCertainObjectTask(nameOfActivity, date, time);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
 
+    private class SetTimeForCertainObjectTask implements Runnable {
+
+        private String nameOfActivity;
+        private long date;
+        private int time;
+
+        public SetTimeForCertainObjectTask(String nameOfActivity, long date, int time) {
+            this.nameOfActivity = nameOfActivity;
+            this.date = date;
+            this.time = time;
+        }
+
+        @Override
+        public void run() {
+            db.timecounts().setTimeOfOtem(nameOfActivity, date, time);
+        }
+    }
 }
