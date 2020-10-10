@@ -30,4 +30,5 @@
     <string name="timer_finished_notification_text">Die Zeit ist vorbei. Beende deine Aktivität.</string>
     <string name="timer_stopped_notification_title">Gestoppt!</string>
     <string name="timer_stopped_notification_text">Aktivität wurde gestoppt.</string>
+    <string name="woche">Woche</string>
 </resources>
