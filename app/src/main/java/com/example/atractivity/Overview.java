@@ -9,19 +9,26 @@ import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-
-
+import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
+import com.example.atractivity.Data.Database.DaylyTimeCount;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Overview extends AppCompatActivity {
 
     private String currentDate;
     private Calendar calendar;
+    private ArrayList<DaylyTimeCount> dailys;
 
     private ActivityItemDatabaseHelper databaseHelper;
 
+
     OverviewPagerAdapter overviewPagerAdapter;
     ViewPager viewPager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +49,45 @@ public class Overview extends AppCompatActivity {
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
+        //initializes the ArrayList for the getItemsOfCurrentDay Method
+        dailys = new ArrayList<>();
     }
 
     private void initUI() {
 
+    }
+
+    //Method to get all Daily Time Obkéjects from db for the actual day
+    private void getItemsOfCurrentDayFromDB(){
+
+        databaseHelper.getAllTimeItemsOfADay(currentDate, new DailyTimeCountQueryResultListener() {
+            @Override
+            public void onListResult(List<DaylyTimeCount> timeCounts) {
+                dailys.addAll(timeCounts);
+            }
+
+            @Override
+            public int onTimeResult(int minutes) {
+
+                return minutes;
+            }
+        });
+    }
+
+    //Method to return all the time in minutes that was spent for one activity at one day
+    private int getTimeSpentOnActivityFromDB(String currentDate, String activityName){
+        databaseHelper.getDailyTimeCount(currentDate, activityName, new DailyTimeCountQueryResultListener() {
+            @Override
+            public void onListResult(List<DaylyTimeCount> timeCounts) {
+
+            }
+
+            @Override
+            public int onTimeResult(int minutes) {
+                return minutes;
+            }
+        });
+        return 0;
     }
 
     @Override

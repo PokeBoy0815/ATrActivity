@@ -187,7 +187,7 @@ public class ActivityItemDatabaseHelper {
         }
     }
 
-    /**returnes the sum of minutes in all items of a certain name at a certain time*/
+    /**returnes the sum of minutes in all items of a certain name at a certain date*/
 
     public void getDailyTimeCount(String date, String name, DailyTimeCountQueryResultListener listener) {
         GetDailyTimeCountTimeSumTask task = new GetDailyTimeCountTimeSumTask(date, name, listener);
@@ -248,6 +248,7 @@ public class ActivityItemDatabaseHelper {
     }
     /**
      * sets the time column for a certain object to the time that is given to the method
+     * must be used in one of the TimerClasses
      * */
     public void setTimeForCertainObject(String date, String nameOfActivity, int time){
         SetTimeForCertainObjectTask task = new SetTimeForCertainObjectTask(nameOfActivity, date, time);
