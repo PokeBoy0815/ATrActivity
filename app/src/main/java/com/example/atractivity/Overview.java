@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
-import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
+
 
 import java.util.Calendar;
 
