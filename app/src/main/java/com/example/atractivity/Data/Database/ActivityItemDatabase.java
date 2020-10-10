@@ -2,6 +2,7 @@ package com.example.atractivity.Data.Database;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.example.atractivity.Data.ActivityItem;
 

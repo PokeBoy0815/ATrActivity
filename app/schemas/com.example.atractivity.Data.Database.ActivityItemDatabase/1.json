@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "109cf3f7606052bd5ef9efcee310123b",
+    "identityHash": "8344a600d62dcf8da00fb755b9edab37",
     "entities": [
       {
         "tableName": "ActivityItem",
@@ -62,7 +62,7 @@
       },
       {
         "tableName": "DaylyTimeCount",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dailyId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` INTEGER NOT NULL, `nameOfActivity` TEXT, `minutes` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dailyId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT, `nameOfActivity` TEXT, `minutes` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "dailyId",
@@ -73,8 +73,8 @@
           {
             "fieldPath": "date",
             "columnName": "date",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "nameOfActivity",
@@ -102,7 +102,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '109cf3f7606052bd5ef9efcee310123b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8344a600d62dcf8da00fb755b9edab37')"
     ]
   }
 }

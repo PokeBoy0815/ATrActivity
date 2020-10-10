@@ -14,7 +14,8 @@ import java.util.Calendar;
 
 public class Overview extends AppCompatActivity {
 
-    private long currentDate;
+    private String currentDate;
+    private Calendar calendar;
 
     private ActivityItemDatabaseHelper databaseHelper;
 
@@ -31,7 +32,9 @@ public class Overview extends AppCompatActivity {
 
     private void initData() {
         databaseHelper = new ActivityItemDatabaseHelper(this);
-        currentDate = Calendar.getInstance().getTimeInMillis();
+        calendar = Calendar.getInstance();
+        //produces a Date String that can be found in the database
+        currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
     }
 
     private void initUI() {
@@ -64,12 +67,12 @@ public class Overview extends AppCompatActivity {
     }
 
     /** Vergleichen zweier calendar objekte ob sie am selben tag sind
-     * Calendar cal1 = Calendar.getInstance();
-     * Calendar cal2 = Calendar.getInstance();
-     * cal1.setTime(date1);
-     * cal2.setTime(date2);
-     * boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
-     *                   cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
-     *
-     * */
+      Calendar cal1 = Calendar.getInstance();
+      Calendar cal2 = Calendar.getInstance();
+      cal1.setTime(date1);
+      cal2.setTime(date2);
+      boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                        cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+
+      */
 }
