@@ -189,18 +189,18 @@ public class ActivityItemDatabaseHelper {
 
     /**returnes the sum of minutes in all items of a certain name at a certain time*/
 
-    public void getDailyTimeCount(long date, String name, DailyTimeCountQueryResultListener listener) {
+    public void getDailyTimeCount(String date, String name, DailyTimeCountQueryResultListener listener) {
         GetDailyTimeCountTimeSumTask task = new GetDailyTimeCountTimeSumTask(date, name, listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
 
     private class GetDailyTimeCountTimeSumTask implements Runnable {
 
-        private long date;
+        private String date;
         private String name;
         private DailyTimeCountQueryResultListener listener;
 
-        public GetDailyTimeCountTimeSumTask(long date, String name, DailyTimeCountQueryResultListener listener) {
+        public GetDailyTimeCountTimeSumTask(String date, String name, DailyTimeCountQueryResultListener listener) {
             this.date = date;
             this.name = name;
             this.listener = listener;
@@ -220,7 +220,7 @@ public class ActivityItemDatabaseHelper {
     }
 
 /** return all time count items of one day in a List*/
-    public void getAllTimeItemsOfADay(long date, DailyTimeCountQueryResultListener listener){
+    public void getAllTimeItemsOfADay(String date, DailyTimeCountQueryResultListener listener){
         getAllTimeItemsOfOneDayTask task = new getAllTimeItemsOfOneDayTask(date, listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
@@ -228,9 +228,9 @@ public class ActivityItemDatabaseHelper {
     private class getAllTimeItemsOfOneDayTask implements Runnable {
 
         private DailyTimeCountQueryResultListener listener;
-        private long date;
+        private String date;
 
-        public getAllTimeItemsOfOneDayTask(long date, DailyTimeCountQueryResultListener listener) {
+        public getAllTimeItemsOfOneDayTask(String date, DailyTimeCountQueryResultListener listener) {
             this.listener = listener;
             this.date = date;
         }
@@ -249,7 +249,7 @@ public class ActivityItemDatabaseHelper {
     /**
      * sets the time column for a certain object to the time that is given to the method
      * */
-    public void setTimeForCertainObject(long date, String nameOfActivity, int time){
+    public void setTimeForCertainObject(String date, String nameOfActivity, int time){
         SetTimeForCertainObjectTask task = new SetTimeForCertainObjectTask(nameOfActivity, date, time);
         Executors.newSingleThreadExecutor().submit(task);
     }
@@ -257,10 +257,10 @@ public class ActivityItemDatabaseHelper {
     private class SetTimeForCertainObjectTask implements Runnable {
 
         private String nameOfActivity;
-        private long date;
+        private String date;
         private int time;
 
-        public SetTimeForCertainObjectTask(String nameOfActivity, long date, int time) {
+        public SetTimeForCertainObjectTask(String nameOfActivity, String date, int time) {
             this.nameOfActivity = nameOfActivity;
             this.date = date;
             this.time = time;

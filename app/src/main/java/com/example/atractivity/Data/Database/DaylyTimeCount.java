@@ -11,8 +11,8 @@ public class DaylyTimeCount {
 
     @PrimaryKey(autoGenerate = true)
     private int dailyId;
-    private long date;
     //should be derived from the ActivityItems name, to which it belongs
+    private String date;
     private String nameOfActivity;
     @ColumnInfo(name = "minutes")
     private int  minutes;
@@ -20,7 +20,8 @@ public class DaylyTimeCount {
 
 
     public DaylyTimeCount(int minutes, String nameOfActivity){
-        date = Calendar.getInstance().getTimeInMillis();
+        Calendar calendar = Calendar.getInstance();
+        date = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
         this.nameOfActivity = nameOfActivity;
         this.minutes = minutes;
     }
@@ -33,12 +34,11 @@ public class DaylyTimeCount {
         this.minutes = minutes;
     }
 
-
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
