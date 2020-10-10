@@ -6,9 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
 
 import java.util.Calendar;
 
@@ -19,6 +20,9 @@ public class Overview extends AppCompatActivity {
 
     private ActivityItemDatabaseHelper databaseHelper;
 
+    OverviewPagerAdapter overviewPagerAdapter;
+    ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,9 @@ public class Overview extends AppCompatActivity {
         initUI();
         initData();
 
+        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager.setAdapter(overviewPagerAdapter);
 
 
     }
