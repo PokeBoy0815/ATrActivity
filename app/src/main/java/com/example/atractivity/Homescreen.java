@@ -82,7 +82,12 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (IsRunning.testRunning() == false){
                 ActivityItem activityItem = activities.get(i);
-                startActivity(activityItem);
+                startActivity(activityItem, i);
+                }
+                else if (IsRunning.testActiveNumber() != i){
+                    stopActivity();
+                    ActivityItem activityItem = activities.get(i);
+                    startActivity(activityItem, i);
                 }
                 else {
                     stopActivity();
@@ -188,11 +193,12 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
     }
 
 
-    private void startActivity(ActivityItem activityItem){
+    private void startActivity(ActivityItem activityItem, int i){
         Intent intent = new Intent (this, ActivityTimerService.class);
         intent.putExtra(ActivityTimerService.ACTIVITY_EXTRA_KEY, activityItem);
         startService(intent);
         IsRunning.setRunning();
+        IsRunning.setActiveNumber(i);
     }
 
     private void stopActivity(){
