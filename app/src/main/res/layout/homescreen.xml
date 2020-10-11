@@ -52,7 +52,7 @@ To-Do:
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/Change"
-            android:text="Hinzufügen"
+            android:text="@string/add"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout" />
