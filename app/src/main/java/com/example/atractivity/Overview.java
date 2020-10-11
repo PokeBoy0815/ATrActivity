@@ -9,31 +9,22 @@ import android.view.MenuItem;
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
-import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.ViewPager;
 
-import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
 import com.example.atractivity.Data.Database.DaylyTimeCount;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Overview extends FragmentActivity {
+public class Overview extends AppCompatActivity {
 
     private String currentDate;
     private Calendar calendar;
     private ArrayList<String> namesOfActivities = new ArrayList<>();
 
     private ActivityItemDatabaseHelper databaseHelper;
-
-
-    OverviewPagerAdapter overviewPagerAdapter;
-    ViewPager viewPager;
-
 
 
     @Override
@@ -66,10 +57,7 @@ public class Overview extends FragmentActivity {
     }
 
     private void initUI() {
-        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), namesOfActivities);
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        viewPager.setAdapter(overviewPagerAdapter);
-        //overviewPagerAdapter.notifyDataSetChanged();
+
     }
 
     //Method to get all Daily Time Obkéjects from db for the actual day
