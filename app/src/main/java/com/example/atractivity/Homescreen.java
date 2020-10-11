@@ -247,9 +247,12 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
             @Override
             public int onIntegerResult(int i) {
-                databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(), i,
-                        (((activityItem.getHours()*60+activityItem.getMinutes())*60)-remainingTimeInSeconds)/60);
-                Log.e("Krieg ich ID?", ""+activityItem.getActivityName()+","+i+"");
+                if(IsRunning.testRunning()) {
+                    databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(), i,
+                            (((activityItem.getHours() * 60 + activityItem.getMinutes()) * 60) - remainingTimeInSeconds) / 60);
+                    Log.e("Krieg ich ID?", "" + activityItem.getActivityName() + "," + i + "");
+                    return 0;
+                }
                 return 0;
             }
         });

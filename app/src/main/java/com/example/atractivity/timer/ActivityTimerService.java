@@ -92,6 +92,7 @@ public class ActivityTimerService extends Service {
         sendBroadcast(intent);
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.notify(getCurrentNotificationID(), getNotificationForFinishedTimer());
+
         this.stopSelf();
     }
 
