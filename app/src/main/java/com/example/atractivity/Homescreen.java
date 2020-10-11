@@ -10,6 +10,8 @@ import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.ActivityItemAdapter;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
+import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
+import com.example.atractivity.Data.Database.DaylyTimeCount;
 import com.example.atractivity.Data.ReturnKeys;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastListener;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
@@ -22,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 
 import android.view.Menu;
@@ -32,7 +35,9 @@ import android.widget.ListView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Homescreen extends AppCompatActivity implements ActivityTimerBroadcastListener {
@@ -40,6 +45,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     //Instance of databaseHelper for communication with room
     private ActivityItemDatabaseHelper databaseHelper;
+
 
     //private Button button;
     private ListView activityList;
@@ -195,10 +201,12 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     private void startActivity(ActivityItem activityItem, int i){
         Intent intent = new Intent (this, ActivityTimerService.class);
-        intent.putExtra(ActivityTimerService.ACTIVITY_EXTRA_KEY, activityItem);
+        intent.putExtra(ReturnKeys.ACTIVITY_EXTRA_KEY, activityItem);
         startService(intent);
         IsRunning.setRunning();
         IsRunning.setActiveNumber(i);
+        DaylyTimeCount dtc = new DaylyTimeCount(0, activityItem.getActivityName());
+        databaseHelper.addDailyTimeCountToDatabase(dtc);
     }
 
     private void stopActivity(){
@@ -222,8 +230,26 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
 
     @Override
-    public void onTimerUpdate(int remainingTimeInSeconds) {
+    public void onTimerUpdate(final int remainingTimeInSeconds) {
         //time got updated  (original für zeitanzeige im overlay, bei uns für update der zeit in der datenbank)
+        final ActivityItem activityItem = activities.get(IsRunning.testActiveNumber());
+        final String date = "" + Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR + "";
+        databaseHelper.returnLatestItemID(date, activityItem.getActivityName(), new DailyTimeCountQueryResultListener() {
+            @Override
+            public void onListResult(List<DaylyTimeCount> timeCounts) {
+
+            }
+
+            @Override
+            public int onIntegerResult(int i) {
+                databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(), i,
+                        (((activityItem.getHours()*60+activityItem.getMinutes())*60)-remainingTimeInSeconds)/60);
+                Log.e("Krieg ich ID?", ""+activityItem.getActivityName()+","+i+"");
+                return 0;
+            }
+        });
+
+
     }
 
     @Override
@@ -258,6 +284,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

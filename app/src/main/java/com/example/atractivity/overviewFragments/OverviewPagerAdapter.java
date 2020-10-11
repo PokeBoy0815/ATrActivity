@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+
 public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
     public OverviewPagerAdapter(FragmentManager fragmentManager){

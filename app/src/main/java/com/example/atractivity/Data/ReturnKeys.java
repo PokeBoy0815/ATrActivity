@@ -10,5 +10,8 @@ public class ReturnKeys {
     public static final String COLOR_KEY = "144";
     public static final String ALERT_KEY = "444";
     public static final int KEY_TO_RETURN_ACTIVITY = 101;
+
+    public static final String ACTIVITY_EXTRA_KEY = "ACTIVITY";
+    public static final String DB_HELPER_EXTRA_KEY = "DB_HELPER";
 }
 

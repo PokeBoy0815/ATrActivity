@@ -5,5 +5,5 @@ import java.util.List;
 public interface DailyTimeCountQueryResultListener {
 
     void onListResult(List<DaylyTimeCount> timeCounts);
-    int onTimeResult(int minutes);
+    int onIntegerResult(int i);
 }

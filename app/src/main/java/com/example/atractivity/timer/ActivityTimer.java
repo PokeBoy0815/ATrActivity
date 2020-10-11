@@ -1,6 +1,7 @@
 package com.example.atractivity.timer;
 
 import com.example.atractivity.Data.ActivityItem;
+import com.example.atractivity.Data.Database.DaylyTimeCount;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
@@ -20,6 +21,7 @@ public class ActivityTimer implements Runnable {
         this.listener = listener;
         this.endTime = System.currentTimeMillis() + ((activity.getHours()*60+activity.getMinutes())*60000);
     }
+
 
     public void start(){
         scheduledTimerFuture = Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(this,DEFAULT_DELAY, DEFAULT_DELAY, DEFAULT_TIME_UNIT);

@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.example.atractivity.Data.ActivityItem;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -65,7 +66,7 @@ public class ActivityItemDatabaseHelper {
         Executors.newSingleThreadExecutor().submit(task);
     }
 
-    private class FindActivityItemByIdTask implements Runnable {
+    private class FindActivityItemByIdTask implements Runnable, Serializable {
 
         private int uid;
         private ActivityItemQueryResultListener listener;
@@ -213,7 +214,7 @@ public class ActivityItemDatabaseHelper {
             activityContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onTimeResult(minutes);
+                    listener.onIntegerResult(minutes);
                 }
             });
         }
@@ -250,8 +251,8 @@ public class ActivityItemDatabaseHelper {
      * sets the time column for a certain object to the time that is given to the method
      * must be used in one of the TimerClasses
      * */
-    public void setTimeForCertainObject(String date, String nameOfActivity, int time){
-        SetTimeForCertainObjectTask task = new SetTimeForCertainObjectTask(nameOfActivity, date, time);
+    public void setTimeForCertainObject(String date, String nameOfActivity, int time, int id){
+        SetTimeForCertainObjectTask task = new SetTimeForCertainObjectTask(nameOfActivity, date, time, id);
         Executors.newSingleThreadExecutor().submit(task);
     }
 
@@ -260,16 +261,52 @@ public class ActivityItemDatabaseHelper {
         private String nameOfActivity;
         private String date;
         private int time;
+        private int id;
 
-        public SetTimeForCertainObjectTask(String nameOfActivity, String date, int time) {
+        public SetTimeForCertainObjectTask(String nameOfActivity, String date, int time, int id) {
             this.nameOfActivity = nameOfActivity;
+            this.id = id;
             this.date = date;
             this.time = time;
         }
 
         @Override
         public void run() {
-            db.timecounts().setTimeOfOtem(nameOfActivity, date, time);
+            db.timecounts().setTimeOfOtem(nameOfActivity, date, time, id);
         }
     }
+
+    /**returnes the id of the latest item of a certain activity*/
+
+    public void returnLatestItemID(String date, String name, DailyTimeCountQueryResultListener listener) {
+        ReturnLatestItemIDTask task = new ReturnLatestItemIDTask(date, name, listener);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class ReturnLatestItemIDTask implements Runnable {
+
+        private String date;
+        private String name;
+        private DailyTimeCountQueryResultListener listener;
+
+        public ReturnLatestItemIDTask(String date, String name, DailyTimeCountQueryResultListener listener) {
+            this.date = date;
+            this.name = name;
+            this.listener = listener;
+        }
+
+        @Override
+        public void run() {
+            final int id = db.timecounts().getLatestDailyTime(date, name);
+
+            activityContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onIntegerResult(id);
+                }
+            });
+        }
+    }
+
+
 }

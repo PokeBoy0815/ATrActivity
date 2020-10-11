@@ -1,5 +1,6 @@
 package com.example.atractivity.timer;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,19 +13,27 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.example.atractivity.Data.ActivityItem;
+import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
+import com.example.atractivity.Data.Database.DaylyTimeCount;
+import com.example.atractivity.Data.ReturnKeys;
 import com.example.atractivity.Homescreen;
 import com.example.atractivity.R;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class ActivityTimerService extends Service {
     public static final String NOTIFICATION_CHANNEL_ID = "ACTIVITY_TIMER_CHANNEL_ID";
     public static final String NOTIFICATION_CHANNEL_NAME = "ActivityTimer Channel";
     public static final String NOTIFICATION_CHANNEL_DESCRIPTION= "Notification channel for ActivityTimer";
-    public static  final String ACTIVITY_EXTRA_KEY = "ACTIVITY";
 
     private static int currentNotificationID = 0;
     private ActivityTimer timer;
+    private ActivityItemDatabaseHelper databaseHelper;
 
 
     @Nullable
@@ -50,12 +59,15 @@ public class ActivityTimerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        ActivityItem activityItem = (ActivityItem) intent.getSerializableExtra(ACTIVITY_EXTRA_KEY);
+        final ActivityItem activityItem = (ActivityItem) intent.getSerializableExtra(ReturnKeys.ACTIVITY_EXTRA_KEY);
+        //databaseHelper = new ActivityItemDatabaseHelper();
+
         startTimerForActivity(activityItem);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void startTimerForActivity(ActivityItem activityItem){
+    private void startTimerForActivity(final ActivityItem activityItem){
         timer = new ActivityTimer(activityItem, new ActivityTimerListener() {
             @Override
             public void onUpdate(int remainingTimeInSeconds) {

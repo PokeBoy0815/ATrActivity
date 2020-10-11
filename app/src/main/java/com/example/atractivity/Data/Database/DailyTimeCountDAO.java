@@ -19,8 +19,8 @@ public interface DailyTimeCountDAO {
 
 
     //Set time saved in a certain Object to a certain time
-    @Query("UPDATE daylytimecount SET minutes = :time WHERE  date = :dateOfItem AND nameOfActivity = :activityitemName")
-    void setTimeOfOtem(String activityitemName, String dateOfItem, int time);
+    @Query("UPDATE daylytimecount SET minutes = :time WHERE  date = :dateOfItem AND nameOfActivity = :activityitemName AND dailyId = :did")
+    void setTimeOfOtem(String activityitemName, String dateOfItem, int time, int did);
 
 
     //query TimeObjects by date
@@ -30,6 +30,10 @@ public interface DailyTimeCountDAO {
     //sum of Items time per item searched at a date
     @Query("SELECT Count(minutes) FROM daylytimecount WHERE date = :dateOfItem AND nameOfActivity = :activityitemName")
     int getDailyTimeByDate(String dateOfItem, String activityitemName);
+
+    @Query("SELECT MAX(dailyId) FROM daylytimecount WHERE date = :dateOfItem AND nameOfActivity = :activityitemName")
+    int getLatestDailyTime(String dateOfItem, String activityitemName);
+
 
 
     @Delete

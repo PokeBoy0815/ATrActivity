@@ -2,9 +2,13 @@ package com.example.atractivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -46,6 +50,17 @@ public class Overview extends AppCompatActivity {
 
     private void initData() {
         databaseHelper = new ActivityItemDatabaseHelper(this);
+        databaseHelper.getActivityItemByName("iuugjzv", new ActivityItemQueryResultListener() {
+            @Override
+            public void onResult(ActivityItem aitem) {
+                Log.i("ISITEMTHERE",""+aitem.getMinutes()+"");
+            }
+
+            @Override
+            public void onListResult(List<ActivityItem> aitems) {
+
+            }
+        });
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
@@ -67,7 +82,7 @@ public class Overview extends AppCompatActivity {
             }
 
             @Override
-            public int onTimeResult(int minutes) {
+            public int onIntegerResult(int minutes) {
 
                 return minutes;
             }
@@ -83,7 +98,7 @@ public class Overview extends AppCompatActivity {
             }
 
             @Override
-            public int onTimeResult(int minutes) {
+            public int onIntegerResult(int minutes) {
                 return minutes;
             }
         });
@@ -107,7 +122,8 @@ public class Overview extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
             Intent intent = new Intent(Overview.this, Homescreen.class);
-            startActivity(intent);        }
+            startActivity(intent);
+        }
         if (id == R.id.stats) {
             Intent intent = new Intent(Overview.this, Overview.class);
             startActivity(intent);
