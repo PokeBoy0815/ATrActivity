@@ -1,6 +1,8 @@
 package com.example.atractivity.overviewFragments;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,24 +19,19 @@ import java.util.List;
 
 public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private ActivityItemDatabaseHelper databaseHelper;
-    private ArrayList<ActivityItem> activityItems;
 
-    public OverviewPagerAdapter(FragmentManager fragmentManager, ActivityItemDatabaseHelper databaseHelper){
+    private ArrayList<String> nameList;
+
+    public OverviewPagerAdapter(FragmentManager fragmentManager, ArrayList<String> nameList){
         super(fragmentManager);
-        this.databaseHelper = databaseHelper;
-        activityItems = new ArrayList<>();
-        databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
-            @Override
-            public void onResult(ActivityItem aitem) {
+        this.nameList = nameList;
+        Log.e("VOR_DATBASE QUERY", "hier");
+        databaseSpaTest();
+        Log.e("Nach_DATBASE QUERY", "hier");
+    }
 
-            }
+    private void databaseSpaTest() {
 
-            @Override
-            public void onListResult(List<ActivityItem> aitems) {
-                activityItems.addAll(aitems);
-            }
-        });
     }
 
     @NonNull
@@ -51,7 +48,7 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         else {
             Bundle arguments = new Bundle();
             arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
-            String activityNameFromDatabase = activityItems.get(i-1).getActivityName();
+            String activityNameFromDatabase = nameList.get(i);
             arguments.putString(OverviewFragment.TITLE_ARG, activityNameFromDatabase);
             fragment.setArguments(arguments);
             return fragment;
@@ -61,7 +58,8 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         //getCountFromDatabase
-        return 5;
+        return (nameList.size()+1);
+
     }
 
     @Override

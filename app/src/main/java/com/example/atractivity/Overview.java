@@ -11,6 +11,8 @@ import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
 import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.overviewFragments.OverviewPagerAdapter;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
@@ -20,11 +22,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Overview extends AppCompatActivity {
+public class Overview extends FragmentActivity {
 
     private String currentDate;
     private Calendar calendar;
-    private ArrayList<DaylyTimeCount> dailys;
+    private ArrayList<String> namesOfActivities = new ArrayList<>();
 
     private ActivityItemDatabaseHelper databaseHelper;
 
@@ -46,28 +48,28 @@ public class Overview extends AppCompatActivity {
 
     private void initData() {
         databaseHelper = new ActivityItemDatabaseHelper(this);
-        /*databaseHelper.getActivityItemByName("iuugjzv", new ActivityItemQueryResultListener() {
+        databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
             public void onResult(ActivityItem aitem) {
-                Log.i("ISITEMTHERE",""+aitem.getMinutes()+"");
             }
-
             @Override
             public void onListResult(List<ActivityItem> aitems) {
-
+                for (int i = 0; i < aitems.size(); i++) {
+                    namesOfActivities.add(aitems.get(i).getActivityName());
+                }
             }
-        });*/
+        });
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
         //initializes the ArrayList for the getItemsOfCurrentDay Method
-        dailys = new ArrayList<>();
     }
 
     private void initUI() {
-        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), databaseHelper);
+        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), namesOfActivities);
         viewPager = (ViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(overviewPagerAdapter);
+        //overviewPagerAdapter.notifyDataSetChanged();
     }
 
     //Method to get all Daily Time Obkéjects from db for the actual day
@@ -76,7 +78,7 @@ public class Overview extends AppCompatActivity {
         databaseHelper.getAllTimeItemsOfADay(currentDate, new DailyTimeCountQueryResultListener() {
             @Override
             public void onListResult(List<DaylyTimeCount> timeCounts) {
-                dailys.addAll(timeCounts);
+
             }
 
             @Override

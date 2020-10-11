@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.atractivity.Data.ActivityItem;
@@ -46,7 +47,6 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
     //Instance of databaseHelper for communication with room
     private ActivityItemDatabaseHelper databaseHelper;
 
-
     //private Button button;
     private ListView activityList;
 
@@ -56,13 +56,15 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     private ActivityTimerBroadcastReceiver broadcastReceiver;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseHelper = new ActivityItemDatabaseHelper(this);
         buildUI();
         adapterStuff();
+        checkFirstRun();
         fetchDatabaseData();
+
 
     }
 
@@ -128,11 +130,54 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         return false;
     }
 
+    private void checkFirstRun() {
+
+        final String PREFS_NAME = "MyPrefsFile";
+        final String PREF_VERSION_CODE_KEY = "version_code";
+        final int DOESNT_EXIST = -1;
+
+        // Get current version code
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+
+        // Get saved version code
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+        // Check for first run or upgrade
+        if (currentVersionCode == savedVersionCode) {
+
+            // This is just a normal run
+            return;
+
+        } else if (savedVersionCode == DOESNT_EXIST) {
+
+            // Do first run stuff here then set 'firstrun' as false
+            ActivityItem a1 = new ActivityItem("Android", true, 1, 45, 3, false);
+            activities.add(a1);
+            databaseHelper.addActivityItemToDatabase(a1);
+            ActivityItem a2 = new ActivityItem("Sport", true, 0, 45, 5, false);
+            activities.add(a2);
+            databaseHelper.addActivityItemToDatabase(a2);
+            ActivityItem a3 = new ActivityItem("Netflix", false, 2, 0, 1, true);
+            activities.add(a3);
+            databaseHelper.addActivityItemToDatabase(a3);
+            activityitemadapter.notifyDataSetChanged();
+            // using the following line to edit/commit prefs
+            prefs.edit().putBoolean("firstrun", false).apply();
+
+        } else if (currentVersionCode > savedVersionCode) {
+            // TODO This is an upgrade
+        }
+
+        // Update the shared preferences with the current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
+
 
     /** Method that puts all ActivityItem objects into an arrayList so we can use the arrayListAdapter*/
     private void fetchDatabaseData() {
         //ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
-        databaseHelper = new ActivityItemDatabaseHelper(this);
+
         //databaseHelper.addActivityItemToDatabase(ai1);
         databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
@@ -247,13 +292,12 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
             @Override
             public int onIntegerResult(int i) {
-                if(IsRunning.testRunning()) {
+
                     databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(), i,
                             (((activityItem.getHours() * 60 + activityItem.getMinutes()) * 60) - remainingTimeInSeconds) / 60);
                     Log.e("Krieg ich ID?", "" + activityItem.getActivityName() + "," + i + "");
                     return 0;
-                }
-                return 0;
+
             }
         });
 
