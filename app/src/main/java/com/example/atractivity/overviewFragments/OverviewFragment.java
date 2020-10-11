@@ -17,11 +17,16 @@ public class OverviewFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View root = inflater.inflate(R.layout.fragment_overview, container, false);
+        View view = inflater.inflate(R.layout.fragment_overview, container, false);
         Bundle args = getArguments();
         String param = Integer.toString(args.getInt(OverviewFragment.ARG));
-        ((TextView)root.findViewById(R.id.overview)).setText(param);
-        return root;
+        ((TextView)view.findViewById(R.id.overview)).setText(param);
+        return view;
     }
 
+    private String[] getTitleStrings(){
+        return null;
+    }
+
+    
 }

@@ -32,4 +32,6 @@
     <string name="timer_stopped_notification_text">Aktivität wurde gestoppt.</string>
     <string name="woche">Woche</string>
     <string name="overview_fragment">OverviewFragment</string>
+    <string name="add">Hinzufügen</string>
+    <string name="overview_default_title">TITEL</string>
 </resources>
