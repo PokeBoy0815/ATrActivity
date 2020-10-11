@@ -80,44 +80,48 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         activityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (IsRunning.testRunning() == false){
-                ActivityItem activityItem = activities.get(i);
-                startActivity(activityItem, i);
-                }
-                else if (IsRunning.testActiveNumber() != i){
-                    stopActivity();
-                    ActivityItem activityItem = activities.get(i);
-                    startActivity(activityItem, i);
-                }
-                else {
-                    stopActivity();
-                }
-                /*boolean activeTimerDoesExist = false; (muss in die Klasse)
-                * int activeTimerNumber;
-                * if (!activeTimerDoesExist){start timer; activeTimerNumber = i;}
-                * else if (i != activeTimerNumber) {stop timer; start timer; activeTimerNumber = i;}
-                * else {stop timer}*/
+                onItemClickListener(i);
             }
         });
         activityList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AlertDialog.Builder adb=new AlertDialog.Builder(Homescreen.this);
-                adb.setTitle("Delete?");
-                adb.setMessage("Are you sure you want to delete " + i);
-                final int positionToRemove = i;
-                adb.setNegativeButton("Cancel", null);
-                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        databaseHelper.deleteActivityItemFromDatabase(activities.get(positionToRemove));
-                        activities.remove(positionToRemove);
-                        activityitemadapter.notifyDataSetChanged();
-                    }});
-                adb.show();
-                return false;
+                return onItemLongClickListener(i);
             }
         });
     }
+
+    /** Methods for the ItemClickListeners and ItemLongClickListeners.*/
+    private void onItemClickListener(int i){
+        if (!IsRunning.testRunning()){
+            ActivityItem activityItem = activities.get(i);
+            startActivity(activityItem, i);
+        }
+        else if (IsRunning.testActiveNumber() != i){
+            stopActivity();
+            ActivityItem activityItem = activities.get(i);
+            startActivity(activityItem, i);
+        }
+        else {
+            stopActivity();
+        }
+    }
+    private boolean onItemLongClickListener(int i){
+        AlertDialog.Builder adb=new AlertDialog.Builder(Homescreen.this);
+        adb.setTitle("Delete?");
+        adb.setMessage("Are you sure you want to delete " + i);
+        final int positionToRemove = i;
+        adb.setNegativeButton("Cancel", null);
+        adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                databaseHelper.deleteActivityItemFromDatabase(activities.get(positionToRemove));
+                activities.remove(positionToRemove);
+                activityitemadapter.notifyDataSetChanged();
+            }});
+        adb.show();
+        return false;
+    }
+
 
     /** Method that puts all ActivityItem objects into an arrayList so we can use the arrayListAdapter*/
     private void fetchDatabaseData() {
@@ -204,6 +208,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
     private void stopActivity(){
         Intent intent = new Intent (this, ActivityTimerService.class);
         stopService(intent);
+        IsRunning.setNotRunning();
     }
 
     /*register and unregister broadcast reciever*/

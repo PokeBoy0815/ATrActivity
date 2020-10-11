@@ -25,6 +25,7 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
+        //getCountFromDatabase
         return 5;
     }
 

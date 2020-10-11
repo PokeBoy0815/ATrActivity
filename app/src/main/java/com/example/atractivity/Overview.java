@@ -37,11 +37,10 @@ public class Overview extends AppCompatActivity {
         initUI();
         initData();
 
+        // Create View Pager
         overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(overviewPagerAdapter);
-
-
     }
 
     private void initData() {
