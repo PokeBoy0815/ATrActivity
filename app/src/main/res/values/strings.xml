@@ -34,4 +34,5 @@
     <string name="overview_fragment">OverviewFragment</string>
     <string name="add">Hinzufügen</string>
     <string name="overview_default_title">TITEL</string>
+    <string name="overview_title_today">Heute</string>
 </resources>

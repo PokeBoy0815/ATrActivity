@@ -38,18 +38,15 @@ public class Overview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.overview);
-        initUI();
         initData();
+        initUI();
 
         // Create View Pager
-        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager)findViewById(R.id.pager);
-        viewPager.setAdapter(overviewPagerAdapter);
     }
 
     private void initData() {
         databaseHelper = new ActivityItemDatabaseHelper(this);
-        databaseHelper.getActivityItemByName("iuugjzv", new ActivityItemQueryResultListener() {
+        /*databaseHelper.getActivityItemByName("iuugjzv", new ActivityItemQueryResultListener() {
             @Override
             public void onResult(ActivityItem aitem) {
                 Log.i("ISITEMTHERE",""+aitem.getMinutes()+"");
@@ -59,7 +56,7 @@ public class Overview extends AppCompatActivity {
             public void onListResult(List<ActivityItem> aitems) {
 
             }
-        });
+        });*/
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
@@ -68,7 +65,9 @@ public class Overview extends AppCompatActivity {
     }
 
     private void initUI() {
-
+        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), databaseHelper);
+        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager.setAdapter(overviewPagerAdapter);
     }
 
     //Method to get all Daily Time Obkéjects from db for the actual day

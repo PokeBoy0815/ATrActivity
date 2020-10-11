@@ -8,23 +8,34 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.R;
 
 public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
-    public OverviewPagerAdapter(FragmentManager fragmentManager){
+    private ActivityItemDatabaseHelper databaseHelper;
+
+    public OverviewPagerAdapter(FragmentManager fragmentManager, ActivityItemDatabaseHelper databaseHelper){
         super(fragmentManager);
+        this.databaseHelper = databaseHelper;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int i) {
         Fragment fragment = new OverviewFragment();
-        //for i=0 heute
-        //for i>0 array from database
-        Bundle args = new Bundle();
-        args.putInt(OverviewFragment.ARG, i+1);
-        fragment.setArguments(args);
-        return fragment;
+        if (i==0){
+            Bundle arguments = new Bundle();
+            arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
+            arguments.putString(OverviewFragment.TITLE_ARG, String.valueOf(R.string.overview_title_today));
+            fragment.setArguments(arguments);
+            return fragment;
+        }
+        else {
+            Bundle arguments = new Bundle();
+            arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
+            fragment.setArguments(arguments);
+            return fragment;
+        }
     }
 
     @Override
