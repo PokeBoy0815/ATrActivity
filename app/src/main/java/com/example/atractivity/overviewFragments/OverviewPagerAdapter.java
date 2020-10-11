@@ -19,6 +19,7 @@ import java.util.List;
 
 public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
+    private final String HEUTE_TEXT = "Heute";
 
     private ArrayList<String> nameList;
 
@@ -41,7 +42,7 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         if (i==0){
             Bundle arguments = new Bundle();
             arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
-            arguments.putString(OverviewFragment.TITLE_ARG, String.valueOf(R.string.overview_title_today));
+            arguments.putString(OverviewFragment.TITLE_ARG, HEUTE_TEXT);
             fragment.setArguments(arguments);
             return fragment;
         }
