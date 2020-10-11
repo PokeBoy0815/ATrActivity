@@ -36,12 +36,12 @@ public class ActivityTimer implements Runnable {
         final long now = System.currentTimeMillis();
         final int secondsRemaining = (int) (endTime - now) / 1000;
         listener.onUpdate(secondsRemaining);
-        if (now >= endTime) {
-            listener.onFinished();
+        if (!IsRunning.testRunning()) {
+            listener.onStopped();
             scheduledTimerFuture.cancel(true);
         }
-        else if (!IsRunning.testRunning()){
-            listener.onStopped();
+        else if (now >= endTime){
+            listener.onFinished();
             scheduledTimerFuture.cancel(true);
         }
     }
