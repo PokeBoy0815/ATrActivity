@@ -1,6 +1,7 @@
 package com.example.atractivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
 import com.example.atractivity.Data.Database.DaylyTimeCount;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,6 +32,8 @@ public class Overview extends AppCompatActivity {
     private ArrayList<String> namesOfActivities = new ArrayList<>();
 
     private ActivityItemDatabaseHelper databaseHelper;
+
+    private int activeNumber = 0;
 
 
     @Override
@@ -57,7 +66,24 @@ public class Overview extends AppCompatActivity {
     }
 
     private void initUI() {
+        PieChart todayPieChart = findViewById(R.id.today_pie_chart);
 
+        ArrayList<PieEntry> testData = new ArrayList<>();
+        testData.add(new PieEntry(483, "Sport"));
+        testData.add(new PieEntry(1476, "Netflix"));
+        testData.add(new PieEntry(2675, "Android"));
+
+        PieDataSet todayDataSet = new PieDataSet(testData, "Test");
+        todayDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        todayDataSet.setValueTextColor(Color.BLACK);
+        todayDataSet.setValueTextSize(16f);
+
+        PieData todayPieData = new PieData(todayDataSet);
+
+        todayPieChart.setData(todayPieData);
+        todayPieChart.getDescription().setEnabled(false);
+        todayPieChart.setCenterText("test");
+        todayPieChart.animate();
     }
 
     //Method to get all Daily Time Obkéjects from db for the actual day
