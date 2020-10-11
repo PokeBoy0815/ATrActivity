@@ -7,16 +7,34 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
     private ActivityItemDatabaseHelper databaseHelper;
+    private ArrayList<ActivityItem> activityItems;
 
     public OverviewPagerAdapter(FragmentManager fragmentManager, ActivityItemDatabaseHelper databaseHelper){
         super(fragmentManager);
         this.databaseHelper = databaseHelper;
+        activityItems = new ArrayList<>();
+        databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
+            @Override
+            public void onResult(ActivityItem aitem) {
+
+            }
+
+            @Override
+            public void onListResult(List<ActivityItem> aitems) {
+                activityItems.addAll(aitems);
+            }
+        });
     }
 
     @NonNull
@@ -33,6 +51,8 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         else {
             Bundle arguments = new Bundle();
             arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
+            String activityNameFromDatabase = activityItems.get(i-1).getActivityName();
+            arguments.putString(OverviewFragment.TITLE_ARG, activityNameFromDatabase);
             fragment.setArguments(arguments);
             return fragment;
         }

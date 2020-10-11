@@ -21,8 +21,8 @@ public class OverviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         Bundle args = getArguments();
         int viewNumber = args.getInt(OverviewFragment.VIEW_NUMBER_ARG);
-        String param = Integer.toString(args.getInt(OverviewFragment.VIEW_NUMBER_ARG));
-        ((TextView)view.findViewById(R.id.overview)).setText(param);
+        String title = args.getString(OverviewFragment.TITLE_ARG);
+        ((TextView)view.findViewById(R.id.chart_title)).setText(title);
         return view;
     }
 
