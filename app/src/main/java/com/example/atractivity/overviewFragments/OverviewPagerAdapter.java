@@ -17,6 +17,8 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
         Fragment fragment = new OverviewFragment();
+        //for i=0 heute
+        //for i>0 array from database
         Bundle args = new Bundle();
         args.putInt(OverviewFragment.ARG, i+1);
         fragment.setArguments(args);

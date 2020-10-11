@@ -19,6 +19,7 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         Bundle args = getArguments();
+        int viewNumber = args.getInt(OverviewFragment.ARG);
         String param = Integer.toString(args.getInt(OverviewFragment.ARG));
         ((TextView)view.findViewById(R.id.overview)).setText(param);
         return view;
@@ -28,5 +29,5 @@ public class OverviewFragment extends Fragment {
         return null;
     }
 
-    
+
 }
