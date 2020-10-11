@@ -38,27 +38,24 @@ public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
         Fragment fragment = new OverviewFragment();
+        Bundle arguments = new Bundle();
+        arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
         if (i==0){
-            Bundle arguments = new Bundle();
-            arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
-            arguments.putString(OverviewFragment.TITLE_ARG, String.valueOf(R.string.overview_title_today));
-            fragment.setArguments(arguments);
-            return fragment;
+            String titleString = "Heute";
+            arguments.putString(OverviewFragment.TITLE_ARG, titleString);
         }
         else {
-            Bundle arguments = new Bundle();
-            arguments.putInt(OverviewFragment.VIEW_NUMBER_ARG, i);
             String activityNameFromDatabase = nameList.get(i);
             arguments.putString(OverviewFragment.TITLE_ARG, activityNameFromDatabase);
-            fragment.setArguments(arguments);
-            return fragment;
         }
+        fragment.setArguments(arguments);
+        return fragment;
     }
 
     @Override
     public int getCount() {
         //getCountFromDatabase
-        return (nameList.size()+1);
+        return 4;
 
     }
 
