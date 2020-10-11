@@ -52,7 +52,6 @@ public class ActivityTimerService extends Service {
 
     @Override
     public void onDestroy() {
-        broadcastTimerStopped();
         timer.stop();
         super.onDestroy();
     }
@@ -78,6 +77,13 @@ public class ActivityTimerService extends Service {
             public void onFinished() {
                 broadcastTimerFinished();
             }
+
+            @Override
+            public void onStopped() {
+                broadcastTimerStopped();
+            }
+
+
         });
         timer.start();
     }

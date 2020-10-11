@@ -40,6 +40,10 @@ public class ActivityTimer implements Runnable {
             listener.onFinished();
             scheduledTimerFuture.cancel(true);
         }
+        else if (!IsRunning.testRunning()){
+            listener.onStopped();
+            scheduledTimerFuture.cancel(true);
+        }
     }
 
 
