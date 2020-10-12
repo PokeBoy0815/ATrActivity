@@ -1,6 +1,5 @@
 package com.example.atractivity.timer;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,17 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.example.atractivity.Data.ActivityItem;
-import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
-import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
-import com.example.atractivity.Data.Database.DaylyTimeCount;
 import com.example.atractivity.Data.ReturnKeys;
 import com.example.atractivity.Homescreen;
 import com.example.atractivity.R;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
 
 
 public class ActivityTimerService extends Service {
@@ -33,7 +26,6 @@ public class ActivityTimerService extends Service {
 
     private static int currentNotificationID = 0;
     private ActivityTimer timer;
-    private ActivityItemDatabaseHelper databaseHelper;
 
 
     @Nullable
@@ -59,13 +51,14 @@ public class ActivityTimerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         final ActivityItem activityItem = (ActivityItem) intent.getSerializableExtra(ReturnKeys.ACTIVITY_EXTRA_KEY);
-        //databaseHelper = new ActivityItemDatabaseHelper();
 
         startTimerForActivity(activityItem);
 
         return super.onStartCommand(intent, flags, startId);
     }
 
+
+    /** This method starts an timer for an specific activity. */
     private void startTimerForActivity(final ActivityItem activityItem){
         timer = new ActivityTimer(activityItem, new ActivityTimerListener() {
             @Override
@@ -88,6 +81,8 @@ public class ActivityTimerService extends Service {
         timer.start();
     }
 
+
+    /** The following methods notify the broadcast, if the timer is updated, finished or stopped. */
     private void broadcastTimerUpdate(int remainingTimeInSeconds) {
         Intent intent = ActivityTimerBroadcastReceiver.getUpdateIntent(remainingTimeInSeconds);
         sendBroadcast(intent);
@@ -109,8 +104,8 @@ public class ActivityTimerService extends Service {
         notificationManager.notify(getCurrentNotificationID(), getNotificationForStoppedTimer());
     }
 
-    /**
-     * die folgenden methoden sind für systemnotifikation wenn eine activity die zeit/das ziel erreicht hat*/
+    /** The following methods are system notifications if an activity is started, is running,
+     * has reached the goal or gets aborted. */
   private int getCurrentNotificationID() {
         currentNotificationID++;
         return currentNotificationID;
