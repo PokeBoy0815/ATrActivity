@@ -96,8 +96,8 @@ public class Overview extends AppCompatActivity {
     }
 
     private void setArrayWithHashmapsPerDay() {
-        Calendar c = Calendar.getInstance();
         for (int a = 0; a < 7; a++) {
+            Calendar c = Calendar.getInstance();
             timesForActivityNames.clear();
             c.add(c.DATE, -a);
             String date = ""+ c.DAY_OF_MONTH + c.MONTH + c.YEAR+"";
@@ -119,8 +119,9 @@ public class Overview extends AppCompatActivity {
                         return 0;
                     }
                 });
+                lastSevenDays.add(timesForActivityNames);
             }
-            lastSevenDays.add(timesForActivityNames);
+
         }
     }
 
