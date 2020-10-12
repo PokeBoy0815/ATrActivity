@@ -128,7 +128,7 @@ public class Overview extends AppCompatActivity {
         initButtons();
         initPieChart();
         initBarChart();
-
+        updateView();
     }
 
 
@@ -204,24 +204,25 @@ public class Overview extends AppCompatActivity {
       */
 
     /** Update the view. This method gets called by the buttons and on first access of the activity. */
-    /*private void updateView(){
-        updateData();
-        updateChartView();
-    }
-
-    private void updateData(){
+    private void updateView(){
         if (activeViewNumber==0){
-
+            updatePieChartData();
         }
-        else{
-
-        }
+        //else{
+        //}
     }
-    private void updateChartView(){}
 
     private void updatePieChartData(){
         PieChart pieChart = findViewById(R.id.pie_chart);
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        for (int i = 0; i < activityItems.size(); i++) {
+            String activityName = activityItems.get(i).getActivityName();
+            int value;
+            if(lastSevenDays.get(0).get(activityName) != null){value = lastSevenDays.get(0).get(activityName);}
+            else{value = 0;}
+            pieEntries.add(new PieEntry(value,activityName));
+            Log.e("Es wurde erstellt",activityName);
+        }
         PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieDataSet.setValueTextColor(Color.BLACK);
@@ -229,9 +230,11 @@ public class Overview extends AppCompatActivity {
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.setVisibility(View.VISIBLE);
         pieChart.animate();
-        pieChart.setVisibility(View.GONE);
-    }*/
+        pieChart.invalidate();
+    }
 
     /** Set up the pie and bar chart. */
     private void initPieChart(){
