@@ -19,7 +19,7 @@ public class ActivityTimer implements Runnable {
 
     public ActivityTimer(ActivityItem activity, ActivityTimerListener listener){
         this.listener = listener;
-        this.endTime = System.currentTimeMillis() + ((activity.getHours()*60+activity.getMinutes())*60000);
+        this.endTime = System.currentTimeMillis() + (((long)activity.getHours()*60+(long)activity.getActivityMinutes())*60000);
     }
 
 
@@ -34,7 +34,7 @@ public class ActivityTimer implements Runnable {
     @Override
     public void run() {
         final long now = System.currentTimeMillis();
-        final int secondsRemaining = (int) (endTime - now) / 1000;
+        final int secondsRemaining = (int) ((endTime - now) / 1000);
         listener.onUpdate(secondsRemaining);
         if (!IsRunning.testRunning()) {
             listener.onStopped();

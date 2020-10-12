@@ -3,16 +3,17 @@ package com.example.atractivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
-import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
 import com.example.atractivity.Data.Database.DaylyTimeCount;
 import com.github.mikephil.charting.charts.PieChart;
@@ -23,13 +24,15 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class Overview extends AppCompatActivity {
 
     private String currentDate;
     private Calendar calendar;
-    private ArrayList<String> namesOfActivities = new ArrayList<>();
+    private ArrayList<ActivityItem> activityItems = new ArrayList<>();
+    private HashMap<String, Integer> timesForActivityNames = new HashMap<String, Integer>();
 
     private ActivityItemDatabaseHelper databaseHelper;
 
@@ -38,31 +41,53 @@ public class Overview extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.overview);
-        initData();
-        initUI();
 
-        // Create View Pager
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                initUI();
+            }
+        }, 35);
+
     }
 
     private void initData() {
-        databaseHelper = new ActivityItemDatabaseHelper(this);
-        databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
-            @Override
-            public void onResult(ActivityItem aitem) {
-            }
-            @Override
-            public void onListResult(List<ActivityItem> aitems) {
-                for (int i = 0; i < aitems.size(); i++) {
-                    namesOfActivities.add(aitems.get(i).getActivityName());
-                }
-            }
-        });
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
         //initializes the ArrayList for the getItemsOfCurrentDay Method
+        databaseHelper = new ActivityItemDatabaseHelper(this);
+        databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
+            @Override
+            public void onResult(ActivityItem aitem) {
+
+            }
+
+            @Override
+            public void onListResult(List<ActivityItem> aitems) {
+                activityItems.addAll(aitems);
+                Log.e("size", "" + activityItems.size() + "");
+                databaseHelper.getDailyTimeCount(currentDate, activityItems.get(0).getActivityName(), new DailyTimeCountQueryResultListener() {
+                    @Override
+                    public void onListResult(List<DaylyTimeCount> timeCounts) {
+
+                    }
+
+                    @Override
+                    public int onIntegerResult(int i) {
+                        timesForActivityNames.put(activityItems.get(0).getActivityName(), i);
+                        Log.e("map", "" + timesForActivityNames.get(activityItems.get(0)) + "," + i + "");
+                        return 0;
+                    }
+                });
+            }
+            //for (int i = 0; i < activityItems.size(); i++) {
+        });
     }
 
     private void initUI() {
@@ -72,6 +97,9 @@ public class Overview extends AppCompatActivity {
         testData.add(new PieEntry(483, "Sport"));
         testData.add(new PieEntry(1476, "Netflix"));
         testData.add(new PieEntry(2675, "Android"));
+        String itemName = activityItems.get(0).getActivityName();
+        //testData.add(new PieEntry(timesForActivityNames.get(itemName), itemName));
+        testData.add(new PieEntry(2000, itemName));
 
         PieDataSet todayDataSet = new PieDataSet(testData, "Test");
         todayDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -110,6 +138,7 @@ public class Overview extends AppCompatActivity {
             public void onListResult(List<DaylyTimeCount> timeCounts) {
 
             }
+
 
             @Override
             public int onIntegerResult(int minutes) {
@@ -154,4 +183,6 @@ public class Overview extends AppCompatActivity {
                         cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
 
       */
+
+
 }

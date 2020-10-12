@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8344a600d62dcf8da00fb755b9edab37",
+    "identityHash": "f2f0890d6dfdb442b5b8aee41cf017b4",
     "entities": [
       {
         "tableName": "ActivityItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `activityName` TEXT, `min` INTEGER NOT NULL, `alertSet` INTEGER NOT NULL, `hours` INTEGER NOT NULL, `minutes` INTEGER NOT NULL, `color` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `activityName` TEXT, `min` INTEGER NOT NULL, `alertSet` INTEGER NOT NULL, `hours` INTEGER NOT NULL, `activityMinutes` INTEGER NOT NULL, `color` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -39,8 +39,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "minutes",
-            "columnName": "minutes",
+            "fieldPath": "activityMinutes",
+            "columnName": "activityMinutes",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -102,7 +102,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8344a600d62dcf8da00fb755b9edab37')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f2f0890d6dfdb442b5b8aee41cf017b4')"
     ]
   }
 }

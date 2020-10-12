@@ -10,7 +10,7 @@ import java.util.Calendar;
 public class DaylyTimeCount {
 
     @PrimaryKey(autoGenerate = true)
-    private int dailyId;
+    private int dailyId = 1;
     //should be derived from the ActivityItems name, to which it belongs
     private String date;
     private String nameOfActivity;

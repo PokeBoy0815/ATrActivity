@@ -209,7 +209,7 @@ public class ActivityItemDatabaseHelper {
 
         @Override
         public void run() {
-            final int minutes = db.timecounts().getDailyTimeByDate(date, name);
+            final int minutes = db.timecounts().getLatestDailyTime(date, name);
 
             activityContext.runOnUiThread(new Runnable() {
                 @Override
@@ -307,6 +307,35 @@ public class ActivityItemDatabaseHelper {
             });
         }
     }
+
+    /** return all time count items of one day in a List
+    public void getAllTimenmaesOfADay(String date, DailyTimeCountQueryResultListener listener){
+        getAllTimeItemnamesOfOneDayTask task = new getAllTimeItemnamesOfOneDayTask(date, listener);
+        Executors.newSingleThreadExecutor().submit(task);
+    }
+
+    private class getAllTimeItemnamesOfOneDayTask implements Runnable {
+
+        private DailyTimeCountQueryResultListener listener;
+        private String date;
+
+        public getAllTimeItemnamesOfOneDayTask(String date, DailyTimeCountQueryResultListener listener) {
+            this.listener = listener;
+            this.date = date;
+        }
+
+        @Override
+        public void run() {
+            final List<String> timeNames = db.timecounts().getAllItemNames(date);
+            activityContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    listener.onNameListResult(timeNames);
+                }
+            });
+        }
+    }
+    */
 
 
 }

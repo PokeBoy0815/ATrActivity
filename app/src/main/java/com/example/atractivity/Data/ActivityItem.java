@@ -18,14 +18,14 @@ public class ActivityItem implements Serializable {
     private int uid;
     private String activityName;
     private boolean min, alertSet;
-    private int hours, minutes, color = 0;
+    private int hours, activityMinutes, color = 0;
 
 
-    public ActivityItem(String activityName, boolean min, int hours, int minutes, int color, boolean alertSet){
+    public ActivityItem(String activityName, boolean min, int hours, int activityMinutes, int color, boolean alertSet){
         this.activityName = activityName;
         this.min = min;
         this.hours = hours;
-        this.minutes = minutes;
+        this.activityMinutes = activityMinutes;
         this.color = color;
         this.alertSet = alertSet;
     }
@@ -50,8 +50,8 @@ public class ActivityItem implements Serializable {
         return hours;
     }
 
-    public int getMinutes() {
-        return minutes;
+    public int getActivityMinutes() {
+        return activityMinutes;
     }
 
     public int getColor() {
@@ -78,8 +78,8 @@ public class ActivityItem implements Serializable {
         this.hours = hours;
     }
 
-    public void setMinutes(int minutes) {
-        this.minutes = minutes;
+    public void setActivityMinutes(int activityMinutes) {
+        this.activityMinutes = activityMinutes;
     }
 
     public void setColor(int color) {

@@ -255,6 +255,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         IsRunning.setRunning();
         IsRunning.setActiveNumber(i);
         DaylyTimeCount dtc = new DaylyTimeCount(0, activityItem.getActivityName());
+        Log.e("TimeCount", ""+ dtc.getNameOfActivity()+""+dtc.getDailyId()+"");
         databaseHelper.addDailyTimeCountToDatabase(dtc);
     }
 
@@ -290,12 +291,13 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
             }
 
+
             @Override
             public int onIntegerResult(int i) {
 
-                    databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(), i,
-                            (((activityItem.getHours() * 60 + activityItem.getMinutes()) * 60) - remainingTimeInSeconds) / 60);
-                    Log.e("Krieg ich ID?", "" + activityItem.getActivityName() + "," + i + "");
+                    databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(),
+                            (((activityItem.getHours() * 60 + activityItem.getActivityMinutes()) * 60) - remainingTimeInSeconds) / 60, i);
+                    Log.e("Krieg ich ID?", "" + activityItem.getActivityName() + "," + i +", " + remainingTimeInSeconds +"");
                     return 0;
 
             }

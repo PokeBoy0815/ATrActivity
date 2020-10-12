@@ -86,7 +86,7 @@ public class ActivityItemAdapter extends ArrayAdapter<ActivityItem> {
             min = "Maximal";
         }
         int hours = item.getHours();
-        int minutes = item.getMinutes();
+        int minutes = item.getActivityMinutes();
 
         return  min +" "+ hours +" Stunde(n) und "+ minutes +" Minuten";
     }
