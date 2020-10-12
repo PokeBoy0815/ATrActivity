@@ -170,15 +170,15 @@ public class ActivityItemDatabaseHelper {
      creates a new task to seperate the action from the main thread
      */
     public void addDailyTimeCountToDatabase(DaylyTimeCount daylyTimeCount) {
-        AddDailytimeCountTask task = new AddDailytimeCountTask(daylyTimeCount);
+        AddDailyTimeCountTask task = new AddDailyTimeCountTask(daylyTimeCount);
         Executors.newSingleThreadExecutor().submit(task);
     }
 
-    private class AddDailytimeCountTask implements Runnable {
+    private class AddDailyTimeCountTask implements Runnable {
 
         private DaylyTimeCount daylyTimeCount;
 
-        public AddDailytimeCountTask(DaylyTimeCount daylyTimeCount) {
+        public AddDailyTimeCountTask(DaylyTimeCount daylyTimeCount) {
             this.daylyTimeCount = daylyTimeCount;
         }
 

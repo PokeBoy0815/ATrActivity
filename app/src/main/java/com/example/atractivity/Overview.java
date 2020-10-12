@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
@@ -25,7 +26,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+
 public class Overview extends AppCompatActivity {
+
+    private boolean databaseIsFinished;
 
     private String currentDate;
     private Calendar calendar;
@@ -34,7 +38,7 @@ public class Overview extends AppCompatActivity {
     private ActivityItemDatabaseHelper databaseHelper;
 
     private int activeViewNumber = 0;
-    private int maxViewNumber = 5; //maxViewNumber = amount of Activities, 0 if 0 Activites exist
+    private int maxViewNumber; //maxViewNumber = amount of Activities, 0 if 0 Activites exist
 
     private Button leftButton;
     private Button rightButton;
@@ -44,12 +48,13 @@ public class Overview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.overview);
         initData();
-        initUI();
 
+        initUI();
         // Create View Pager
     }
 
     private void initData() {
+        databaseIsFinished = false;
         databaseHelper = new ActivityItemDatabaseHelper(this);
         databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
@@ -59,6 +64,10 @@ public class Overview extends AppCompatActivity {
             public void onListResult(List<ActivityItem> aitems) {
                 for (int i = 0; i < aitems.size(); i++) {
                     namesOfActivities.add(aitems.get(i).getActivityName());
+                    maxViewNumber = namesOfActivities.size();
+                    TextView title = findViewById(R.id.chart_title);
+                    title.setText(Integer.toString(maxViewNumber));
+                    databaseIsFinished = true;
                 }
             }
         });
@@ -66,6 +75,7 @@ public class Overview extends AppCompatActivity {
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
         //initializes the ArrayList for the getItemsOfCurrentDay Method
+
     }
 
     private void initUI() {
@@ -74,8 +84,8 @@ public class Overview extends AppCompatActivity {
 
         ArrayList<PieEntry> testData = new ArrayList<>();
         //PieEntry pieEntry = new PieEntry();
-        testData.add(new PieEntry(483, "Sport"));
-        testData.add(new PieEntry(1476, "Netflix"));
+        testData.add(new PieEntry(483, namesOfActivities.get(1)));
+        testData.add(new PieEntry(1476, namesOfActivities.get(2)));
         testData.add(new PieEntry(2675, "Android"));
 
         PieDataSet todayDataSet = new PieDataSet(testData, "Test");
@@ -204,5 +214,4 @@ public class Overview extends AppCompatActivity {
         if (activeViewNumber == 0){leftButton.setEnabled(false);}
         else {leftButton.setEnabled(true);}
     }
-
 }

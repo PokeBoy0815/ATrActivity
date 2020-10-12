@@ -19,7 +19,7 @@ public class ActivityTimer implements Runnable {
 
     public ActivityTimer(ActivityItem activity, ActivityTimerListener listener){
         this.listener = listener;
-        this.endTime = System.currentTimeMillis() + ((activity.getHours()*60+activity.getMinutes())*60000);
+        this.endTime = System.currentTimeMillis() + (((activity.getHours()*60) + (activity.getMinutes()))*60000);
     }
 
 
