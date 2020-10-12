@@ -107,56 +107,12 @@ public class Overview extends AppCompatActivity {
 
     private void initUI() {
         initButtons();
-        PieChart todayPieChart = findViewById(R.id.pie_chart);
+        initPieChart();
+        initBarChart();
 
-        ArrayList<PieEntry> testData = new ArrayList<>();
-        testData.add(new PieEntry(483, "Sport"));
-        testData.add(new PieEntry(1476, "Netflix"));
-        testData.add(new PieEntry(2675, "Android"));
-        String itemName = activityItems.get(0).getActivityName();
-        //testData.add(new PieEntry(timesForActivityNames.get(itemName), itemName));
-        testData.add(new PieEntry(2000, itemName));
-
-        PieDataSet todayDataSet = new PieDataSet(testData, "Test");
-        todayDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        todayDataSet.setValueTextColor(Color.BLACK);
-        todayDataSet.setValueTextSize(16f);
-
-        PieData todayPieData = new PieData(todayDataSet);
-
-        todayPieChart.setData(todayPieData);
-        todayPieChart.getDescription().setEnabled(false);
-        todayPieChart.setCenterText("test");
-        todayPieChart.animate();
     }
 
-    private void initPieChart(){
-        PieChart pieChart = findViewById(R.id.pie_chart);
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(20);
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.animate();
-        pieChart.setVisibility(View.GONE);
-    }
 
-    private void initBarChart(){
-        BarChart barChart = findViewById(R.id.bar_chart);
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
-        BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        barDataSet.setValueTextColor(Color.BLACK);
-        barDataSet.setValueTextSize(20);
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        barChart.getDescription().setEnabled(false);
-        barChart.animate();
-        barChart.setVisibility(View.GONE);
-    }
 
     //Method to get all Daily Time Obkéjects from db for the actual day
     private void getItemsOfCurrentDayFromDB(){
@@ -227,9 +183,63 @@ public class Overview extends AppCompatActivity {
                         cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
 
       */
-    private int[] getColors(){
-        //create array with the colors from the database
-        return null;
+
+    /** Update the view. This method gets called by the buttons and on first access of the activity. */
+    /*private void updateView(){
+        updateData();
+        updateChartView();
+    }
+
+    private void updateData(){
+        if (activeViewNumber==0){
+
+        }
+        else{
+
+        }
+    }
+    private void updateChartView(){}
+
+    private void updatePieChartData(){
+        PieChart pieChart = findViewById(R.id.pie_chart);
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueTextSize(20);
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.animate();
+        pieChart.setVisibility(View.GONE);
+    }*/
+
+    /** Set up the pie and bar chart. */
+    private void initPieChart(){
+        PieChart pieChart = findViewById(R.id.pie_chart);
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueTextSize(20);
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.animate();
+        pieChart.setVisibility(View.GONE);
+    }
+    private void initBarChart(){
+        BarChart barChart = findViewById(R.id.bar_chart);
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(20);
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.getDescription().setEnabled(false);
+        barChart.animate();
+        barChart.setVisibility(View.GONE);
     }
 
     /** Set up the buttons. */
