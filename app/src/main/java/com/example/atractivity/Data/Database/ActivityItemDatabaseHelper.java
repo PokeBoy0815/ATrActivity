@@ -165,6 +165,12 @@ public class ActivityItemDatabaseHelper {
         }
     }
 
+
+    /**
+     *
+     * DAILYTIMECOUNTDATABASEOPERATIONS
+     * */
+
     /**
      Method that is use to safe DailyTimeCount objects in the datebase
      creates a new task to seperate the action from the main thread
@@ -190,7 +196,7 @@ public class ActivityItemDatabaseHelper {
 
     /**returnes the sum of minutes in all items of a certain name at a certain date*/
 
-    public void getDailyTimeCount(String date, String name, DailyTimeCountQueryResultListener listener) {
+    public void getDailyTimeSumForItem(String date, String name, DailyTimeCountQueryResultListener listener) {
         GetDailyTimeCountTimeSumTask task = new GetDailyTimeCountTimeSumTask(date, name, listener);
         Executors.newSingleThreadExecutor().submit(task);
     }
@@ -209,7 +215,7 @@ public class ActivityItemDatabaseHelper {
 
         @Override
         public void run() {
-            final int minutes = db.timecounts().getLatestDailyTime(date, name);
+            final int minutes = db.timecounts().getDailyTimeByDate(date, name);
 
             activityContext.runOnUiThread(new Runnable() {
                 @Override

@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
@@ -17,7 +16,6 @@ import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
 import com.example.atractivity.Data.Database.DaylyTimeCount;
 import com.github.mikephil.charting.charts.BarChart;
@@ -30,7 +28,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -43,10 +40,13 @@ public class Overview extends AppCompatActivity {
 
     private String currentDate;
     private Calendar calendar;
-    private ArrayList<ActivityItem> activityItems = new ArrayList<>();
-    private HashMap<String, Integer> timesForActivityNames = new HashMap<String, Integer>();
+
 
     private ActivityItemDatabaseHelper databaseHelper;
+    ArrayList<ActivityItem> activityItems  = new ArrayList<>();
+    ArrayList<HashMap<String, Integer>> lastSevenDays = new ArrayList<>();
+    HashMap<String, Integer> timesForActivityNames = new HashMap<>();
+
 
     private int activeViewNumber = 0;
     private int maxViewNumber = 0;
@@ -72,6 +72,7 @@ public class Overview extends AppCompatActivity {
     }
 
     private void initData() {
+
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
@@ -85,25 +86,43 @@ public class Overview extends AppCompatActivity {
 
             @Override
             public void onListResult(List<ActivityItem> aitems) {
+
                 activityItems.addAll(aitems);
-                Log.e("size", "" + activityItems.size() + "");
-                databaseHelper.getDailyTimeCount(currentDate, activityItems.get(0).getActivityName(), new DailyTimeCountQueryResultListener() {
-                    @Override
-                    public void onListResult(List<DaylyTimeCount> timeCounts) {
-
-                    }
-
-                    @Override
-                    public int onIntegerResult(int i) {
-                        timesForActivityNames.put(activityItems.get(0).getActivityName(), i);
-                        Log.e("map", "" + timesForActivityNames.get(activityItems.get(0)) + "," + i + "");
-                        return 0;
-                    }
-                });
+                Log.e("size", "" + activityItems.size() + ", shit");
+                setHashmapByDate(currentDate);
             }
-            //for (int i = 0; i < activityItems.size(); i++) {
         });
+
+        getLastSevenDays();
     }
+
+    private void getLastSevenDays() {
+
+
+    }
+
+    private void setHashmapByDate(String date) {
+
+        for (int i = 0; i < activityItems.size(); i++) {
+                final int e = i;
+
+
+                    databaseHelper.getDailyTimeSumForItem(date, activityItems.get(e).getActivityName(), new DailyTimeCountQueryResultListener() {
+
+                        @Override
+                        public void onListResult(List<DaylyTimeCount> timeCounts) {
+
+                        }
+
+                        @Override
+                        public int onIntegerResult(int i) {
+                            timesForActivityNames.put(activityItems.get(e).getActivityName(), i);
+                            Log.e("map", ""+activityItems.get(e).getActivityName()+ ","+ i +"");
+                            return 0;
+                        }
+                    });
+            }
+        }
 
     private void initUI() {
         initButtons();
@@ -133,7 +152,7 @@ public class Overview extends AppCompatActivity {
 
     //Method to return all the time in minutes that was spent for one activity at one day
     private int getTimeSpentOnActivityFromDB(String currentDate, String activityName){
-        databaseHelper.getDailyTimeCount(currentDate, activityName, new DailyTimeCountQueryResultListener() {
+        databaseHelper.getDailyTimeSumForItem(currentDate, activityName, new DailyTimeCountQueryResultListener() {
             @Override
             public void onListResult(List<DaylyTimeCount> timeCounts) {
 
@@ -280,5 +299,6 @@ public class Overview extends AppCompatActivity {
         if (activeViewNumber == 0){leftButton.setEnabled(false);}
         else {leftButton.setEnabled(true);}
     }
+
 
 }

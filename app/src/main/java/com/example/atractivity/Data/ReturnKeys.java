@@ -12,6 +12,6 @@ public class ReturnKeys {
     public static final int KEY_TO_RETURN_ACTIVITY = 101;
 
     public static final String ACTIVITY_EXTRA_KEY = "ACTIVITY";
-    public static final String DB_HELPER_EXTRA_KEY = "DB_HELPER";
+    public static final String ARRAYLIST_KEY = "DB_HELPER";
 }
 

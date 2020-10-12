@@ -29,7 +29,7 @@ public interface DailyTimeCountDAO {
     List<DaylyTimeCount> getAllDailyTimeCountsOfaDay(String dateOfItem);
 
     //sum of Items time per item searched at a date
-    @Query("SELECT Count(minutes) FROM daylytimecount WHERE date = :dateOfItem AND nameOfActivity = :activityitemName")
+    @Query("SELECT SUM(minutes) FROM daylytimecount WHERE date = :dateOfItem AND nameOfActivity = :activityitemName")
     int getDailyTimeByDate(String dateOfItem, String activityitemName);
 
     @Query("SELECT MAX(dailyId) FROM daylytimecount WHERE date = :dateOfItem AND nameOfActivity = :activityitemName")
