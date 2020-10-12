@@ -130,8 +130,8 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         return false;
     }
 
+    /** Method for creating first time example Data. */
     private void checkFirstRun() {
-
         final String PREFS_NAME = "MyPrefsFile";
         final String PREF_VERSION_CODE_KEY = "version_code";
         final int DOESNT_EXIST = -1;
@@ -247,7 +247,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         activityitemadapter.notifyDataSetChanged();
     }
 
-
+/** Methods to start and stop Activities by activating and deactivating new threads. */
     private void startActivity(ActivityItem activityItem, int i){
         Intent intent = new Intent (this, ActivityTimerService.class);
         intent.putExtra(ReturnKeys.ACTIVITY_EXTRA_KEY, activityItem);
@@ -258,20 +258,18 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         Log.e("TimeCount", ""+ dtc.getNameOfActivity()+""+dtc.getDailyId()+"");
         databaseHelper.addDailyTimeCountToDatabase(dtc);
     }
-
     private void stopActivity(){
         Intent intent = new Intent (this, ActivityTimerService.class);
         stopService(intent);
         IsRunning.setNotRunning();
     }
 
-    /*register and unregister broadcast reciever*/
+    /** Methods to register and unregister broadcast receiver. */
     private void registerBroadcastReceiver() {
         unregisterBroadcastReceiver();
         broadcastReceiver = new ActivityTimerBroadcastReceiver(this);
         this.registerReceiver(broadcastReceiver, ActivityTimerBroadcastReceiver.getIntentFilter());
     }
-
     private void unregisterBroadcastReceiver() {
         if (broadcastReceiver != null) {
             this.unregisterReceiver(broadcastReceiver);
@@ -280,6 +278,11 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
     }
 
 
+    /** Override methods from the Timer. */
+    @Override
+    public void onTimerFinished() {
+        IsRunning.setNotRunning();
+    }
     @Override
     public void onTimerUpdate(final int remainingTimeInSeconds) {
         //time got updated  (original für zeitanzeige im overlay, bei uns für update der zeit in der datenbank)
@@ -306,12 +309,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     }
 
-    @Override
-    public void onTimerFinished() {
-        IsRunning.setNotRunning();
-        int remainingTimeInSeconds = 0;
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
