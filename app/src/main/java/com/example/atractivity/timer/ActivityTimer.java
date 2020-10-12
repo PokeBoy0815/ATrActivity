@@ -30,6 +30,7 @@ public class ActivityTimer implements Runnable {
         scheduledTimerFuture.cancel(true);
     }
 
+    /** This method returns the times to the listener and cancels the scheduledFuture if the Runnable is stopped or finished. */
     @Override
     public void run() {
         final long now = System.currentTimeMillis();

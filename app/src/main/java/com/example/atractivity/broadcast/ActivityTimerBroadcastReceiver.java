@@ -38,10 +38,8 @@ public class ActivityTimerBroadcastReceiver extends BroadcastReceiver {
         filter.addAction(ActivityTimerBroadcastReceiver.TIMER_FINISHED);
         return filter;
     }
-    /**
-     * Erzeugt einen Intent, der diesen BroadcastReceiver darüber informiert, wieviele Sekunden im
-     * Timer noch verbleiben.
-     */
+    
+    /** This method creates an intent which informs the broadcast receiver how many seconds are remaining. */
     public static Intent getUpdateIntent(int remainingTimeInSeconds) {
         Intent intent = new Intent();
         intent.setAction(TIMER_UPDATE);
@@ -49,10 +47,7 @@ public class ActivityTimerBroadcastReceiver extends BroadcastReceiver {
         return intent;
     }
 
-    /**
-     * Erzeugt einen Intent, der diesen BroadcastReceiver darüber informiert, dass die Zeit im Timer
-     * vollständig abgelaufen ist.
-     */
+    /** This method creates an intent which informs the broadcast receiver if the time has finished.*/
     public static Intent getEndIntent() {
         Intent intent = new Intent();
         intent.setAction(TIMER_FINISHED);
