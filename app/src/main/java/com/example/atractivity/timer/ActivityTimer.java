@@ -1,7 +1,6 @@
 package com.example.atractivity.timer;
 
 import com.example.atractivity.Data.ActivityItem;
-import com.example.atractivity.Data.Database.DaylyTimeCount;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
