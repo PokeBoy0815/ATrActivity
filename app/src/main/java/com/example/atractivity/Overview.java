@@ -3,9 +3,10 @@ package com.example.atractivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
@@ -19,7 +20,6 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,8 +33,11 @@ public class Overview extends AppCompatActivity {
 
     private ActivityItemDatabaseHelper databaseHelper;
 
-    private int activeNumber = 0;
+    private int activeViewNumber = 0;
+    private int maxViewNumber = 5; //maxViewNumber = amount of Activities, 0 if 0 Activites exist
 
+    private Button leftButton;
+    private Button rightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +69,18 @@ public class Overview extends AppCompatActivity {
     }
 
     private void initUI() {
+        initButtons();
         PieChart todayPieChart = findViewById(R.id.today_pie_chart);
 
         ArrayList<PieEntry> testData = new ArrayList<>();
+        //PieEntry pieEntry = new PieEntry();
         testData.add(new PieEntry(483, "Sport"));
         testData.add(new PieEntry(1476, "Netflix"));
         testData.add(new PieEntry(2675, "Android"));
 
         PieDataSet todayDataSet = new PieDataSet(testData, "Test");
-        todayDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        int[] colors = {Color.GREEN, Color.YELLOW, Color.rgb(100,0,255)};
+        todayDataSet.setColors(colors);
         todayDataSet.setValueTextColor(Color.BLACK);
         todayDataSet.setValueTextSize(16f);
 
@@ -154,4 +160,49 @@ public class Overview extends AppCompatActivity {
                         cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
 
       */
+
+    private int[] getColors(){
+    //create array with the colors from the database
+        return null;
+    }
+
+    /** Set up the buttons. */
+    private void initButtons(){
+        leftButton = findViewById(R.id.button_left);
+        rightButton = findViewById(R.id.button_right);
+
+        setButtonEnabledStates();
+
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLeftButtonClicked();
+            }
+        });
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRightButtonClicked();
+            }
+        });
+    }
+    /** Button Methods. */
+    private void onLeftButtonClicked(){
+        // do something
+        activeViewNumber = activeViewNumber - 1 ;
+        setButtonEnabledStates();
+    }
+    private void onRightButtonClicked(){
+        //do something
+        activeViewNumber = activeViewNumber + 1;
+        setButtonEnabledStates();
+    }
+    /** Method to enable and disable the buttons based on the showed View. */
+    private void setButtonEnabledStates(){
+        if (activeViewNumber == maxViewNumber){rightButton.setEnabled(false);}
+        else {rightButton.setEnabled(true);}
+        if (activeViewNumber == 0){leftButton.setEnabled(false);}
+        else {leftButton.setEnabled(true);}
+    }
+
 }
