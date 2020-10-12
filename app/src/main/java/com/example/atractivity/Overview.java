@@ -89,40 +89,40 @@ public class Overview extends AppCompatActivity {
 
                 activityItems.addAll(aitems);
                 Log.e("size", "" + activityItems.size() + ", shit");
-                setHashmapByDate(currentDate);
+                setArrayWithHashmapsPerDay();
             }
         });
 
-        getLastSevenDays();
     }
 
-    private void getLastSevenDays() {
-
-
-    }
-
-    private void setHashmapByDate(String date) {
-
-        for (int i = 0; i < activityItems.size(); i++) {
+    private void setArrayWithHashmapsPerDay() {
+        Calendar c = Calendar.getInstance();
+        for (int a = 0; a < 7; a++) {
+            timesForActivityNames.clear();
+            c.add(c.DATE, -a);
+            String date = ""+ c.DAY_OF_MONTH + c.MONTH + c.YEAR+"";
+            for (int i = 0; i < activityItems.size(); i++) {
                 final int e = i;
 
 
-                    databaseHelper.getDailyTimeSumForItem(date, activityItems.get(e).getActivityName(), new DailyTimeCountQueryResultListener() {
+                databaseHelper.getDailyTimeSumForItem(date, activityItems.get(e).getActivityName(), new DailyTimeCountQueryResultListener() {
 
-                        @Override
-                        public void onListResult(List<DaylyTimeCount> timeCounts) {
+                    @Override
+                    public void onListResult(List<DaylyTimeCount> timeCounts) {
 
-                        }
+                    }
 
-                        @Override
-                        public int onIntegerResult(int i) {
-                            timesForActivityNames.put(activityItems.get(e).getActivityName(), i);
-                            Log.e("map", ""+activityItems.get(e).getActivityName()+ ","+ i +"");
-                            return 0;
-                        }
-                    });
+                    @Override
+                    public int onIntegerResult(int i) {
+                        timesForActivityNames.put(activityItems.get(e).getActivityName(), i);
+                        Log.e("map", "" + activityItems.get(e).getActivityName() + "," + i + "");
+                        return 0;
+                    }
+                });
             }
+            lastSevenDays.add(timesForActivityNames);
         }
+    }
 
     private void initUI() {
         initButtons();
