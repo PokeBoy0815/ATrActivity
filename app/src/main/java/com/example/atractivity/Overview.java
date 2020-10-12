@@ -250,11 +250,11 @@ public class Overview extends AppCompatActivity {
         barChart.clearAnimation();
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            String activityName = activityItems.get(activeViewNumber).getActivityName();
+            String activityName = activityItems.get(activeViewNumber-1).getActivityName();
             int value;
             if(lastSevenDays.get(i).get(activityName) != null){value = lastSevenDays.get(i).get(activityName);}
             else{value = 0;}
-            int dayValue = (-(activeViewNumber)+7);
+            int dayValue = (-i+7);
             barEntries.add(new BarEntry(dayValue,value));
             Log.e("Es wurde erstellt",activityName);
         }
