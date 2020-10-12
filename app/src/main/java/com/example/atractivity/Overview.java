@@ -7,25 +7,37 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
+import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
 import com.example.atractivity.Data.Database.DaylyTimeCount;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.example.atractivity.R.string;
+
 
 public class Overview extends AppCompatActivity {
 
@@ -36,7 +48,10 @@ public class Overview extends AppCompatActivity {
 
     private ActivityItemDatabaseHelper databaseHelper;
 
-    private int activeNumber = 0;
+    private int activeViewNumber = 0;
+    private int maxViewNumber = 0;
+    private Button leftButton;
+    private Button rightButton;
 
 
     @Override
@@ -91,7 +106,8 @@ public class Overview extends AppCompatActivity {
     }
 
     private void initUI() {
-        PieChart todayPieChart = findViewById(R.id.today_pie_chart);
+        initButtons();
+        PieChart todayPieChart = findViewById(R.id.pie_chart);
 
         ArrayList<PieEntry> testData = new ArrayList<>();
         testData.add(new PieEntry(483, "Sport"));
@@ -112,6 +128,34 @@ public class Overview extends AppCompatActivity {
         todayPieChart.getDescription().setEnabled(false);
         todayPieChart.setCenterText("test");
         todayPieChart.animate();
+    }
+
+    private void initPieChart(){
+        PieChart pieChart = findViewById(R.id.pie_chart);
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueTextSize(20);
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.animate();
+        pieChart.setVisibility(View.GONE);
+    }
+
+    private void initBarChart(){
+        BarChart barChart = findViewById(R.id.bar_chart);
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(20);
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.getDescription().setEnabled(false);
+        barChart.animate();
+        barChart.setVisibility(View.GONE);
     }
 
     //Method to get all Daily Time Obkéjects from db for the actual day
@@ -183,6 +227,48 @@ public class Overview extends AppCompatActivity {
                         cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
 
       */
+    private int[] getColors(){
+        //create array with the colors from the database
+        return null;
+    }
 
+    /** Set up the buttons. */
+    private void initButtons(){
+        leftButton = findViewById(R.id.button_left);
+        rightButton = findViewById(R.id.button_right);
+
+        setButtonEnabledStates();
+
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLeftButtonClicked();
+            }
+        });
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRightButtonClicked();
+            }
+        });
+    }
+    /** Button Methods. */
+    private void onLeftButtonClicked(){
+        // do something
+        activeViewNumber = activeViewNumber - 1 ;
+        setButtonEnabledStates();
+    }
+    private void onRightButtonClicked(){
+        //do something
+        activeViewNumber = activeViewNumber + 1;
+        setButtonEnabledStates();
+    }
+    /** Method to enable and disable the buttons based on the showed View. */
+    private void setButtonEnabledStates(){
+        if (activeViewNumber == maxViewNumber){rightButton.setEnabled(false);}
+        else {rightButton.setEnabled(true);}
+        if (activeViewNumber == 0){leftButton.setEnabled(false);}
+        else {leftButton.setEnabled(true);}
+    }
 
 }
