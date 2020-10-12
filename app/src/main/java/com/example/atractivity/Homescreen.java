@@ -46,11 +46,9 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     //Instance of databaseHelper for communication with room
     private ActivityItemDatabaseHelper databaseHelper;
-
     //private Button button;
     private ListView activityList;
 
-    //
     private ArrayList<ActivityItem> activities;
     private ActivityItemAdapter activityitemadapter;
 
@@ -68,19 +66,19 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     }
 
+    /** Override methods from the ActivityTimerBroadcastListener to register and unregister the broadcast receiver. */
     @Override
     protected void onStart() {
         super.onStart();
         registerBroadcastReceiver();
     }
-
     @Override
     protected void onStop() {
         super.onStop();
         unregisterBroadcastReceiver();
     }
 
-    //initializes the adapter for the list of Activities
+    /** This method initializes the adapter for the list of activities. */
     private void adapterStuff() {
         activities = new ArrayList<>();
         activityitemadapter = new ActivityItemAdapter(this, activities);
@@ -99,7 +97,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         });
     }
 
-    /** Methods for the ItemClickListeners and ItemLongClickListeners.*/
+    /** The following methods handle actions of the onClickListener and the onLongClickListener.*/
     private void onItemClickListener(int i){
         if (!IsRunning.testRunning()){
             ActivityItem activityItem = activities.get(i);
@@ -176,9 +174,6 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     /** Method that puts all ActivityItem objects into an arrayList so we can use the arrayListAdapter*/
     private void fetchDatabaseData() {
-        //ActivityItem ai1 = new ActivityItem("Test1", true, 1, 0, 1, false);
-
-        //databaseHelper.addActivityItemToDatabase(ai1);
         databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
             public void onResult(ActivityItem aitem) {

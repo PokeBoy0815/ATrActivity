@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,8 +74,8 @@ public class Overview extends AppCompatActivity {
 
     }
 
+    /** This methods are used to get all the needed Data. */
     private void initData() {
-
         calendar = Calendar.getInstance();
         //produces a Date String that can be found in the database
         currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
@@ -98,7 +97,6 @@ public class Overview extends AppCompatActivity {
         });
 
     }
-
     private void setArrayWithHashmapsPerDay() {
         for (int a = 0; a < 7; a++) {
             Calendar c = Calendar.getInstance();
@@ -129,6 +127,7 @@ public class Overview extends AppCompatActivity {
         }
     }
 
+    /** All methods for building the UI and the charts are called. */
     private void initUI() {
         setMaxViewNumber();
         initButtons();
@@ -137,49 +136,13 @@ public class Overview extends AppCompatActivity {
         updateView();
     }
 
-
-
-    //Method to get all Daily Time Obkéjects from db for the actual day
-    private void getItemsOfCurrentDayFromDB(){
-
-        databaseHelper.getAllTimeItemsOfADay(currentDate, new DailyTimeCountQueryResultListener() {
-            @Override
-            public void onListResult(List<DaylyTimeCount> timeCounts) {
-
-            }
-
-            @Override
-            public int onIntegerResult(int minutes) {
-
-                return minutes;
-            }
-        });
-    }
-
-    //Method to return all the time in minutes that was spent for one activity at one day
-    private int getTimeSpentOnActivityFromDB(String currentDate, String activityName){
-        databaseHelper.getDailyTimeSumForItem(currentDate, activityName, new DailyTimeCountQueryResultListener() {
-            @Override
-            public void onListResult(List<DaylyTimeCount> timeCounts) {
-
-            }
-
-
-            @Override
-            public int onIntegerResult(int minutes) {
-                return minutes;
-            }
-        });
-        return 0;
-    }
-
+    /** Override of the methods of the actionbar. */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -199,15 +162,7 @@ public class Overview extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /** Vergleichen zweier calendar objekte ob sie am selben tag sind
-      Calendar cal1 = Calendar.getInstance();
-      Calendar cal2 = Calendar.getInstance();
-      cal1.setTime(date1);
-      cal2.setTime(date2);
-      boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
-                        cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
 
-      */
 
     /** Update the view. This method gets called by the buttons and on first access of the activity. */
     private void updateView(){
@@ -228,6 +183,8 @@ public class Overview extends AppCompatActivity {
         }
     }
 
+    /** Depending on updateView one of this two methods gets called.
+     * They insert the Data into the Chart and update the view, so the needed chart is displayed. */
     private void updatePieChartData(){
         pieChart.clearValues();
         pieChart.clearAnimation();
@@ -282,7 +239,7 @@ public class Overview extends AppCompatActivity {
         title.setText(activityName);
     }
 
-    /** Set up the pie and bar chart. */
+    /** The following methods create the needed charts. They set up the pie and bar chart for further usage. */
     private void initPieChart(){
         pieChart = findViewById(R.id.pie_chart);
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
@@ -310,7 +267,7 @@ public class Overview extends AppCompatActivity {
         barChart.setVisibility(View.GONE);
     }
 
-    /** Set up the buttons. */
+    /** The following methods are creating and setting up the buttons and their listeners. */
     private void initButtons(){
         leftButton = findViewById(R.id.button_left);
         rightButton = findViewById(R.id.button_right);
@@ -330,7 +287,7 @@ public class Overview extends AppCompatActivity {
             }
         });
     }
-    /** Button Methods. */
+    /** This methods are used in the button on click listeners. */
     private void onLeftButtonClicked(){
         // do something
         activeViewNumber = activeViewNumber - 1 ;
@@ -343,6 +300,7 @@ public class Overview extends AppCompatActivity {
         setButtonEnabledStates();
         updateView();
     }
+
     /** Method to enable and disable the buttons based on the showed View. */
     private void setButtonEnabledStates(){
         if (activeViewNumber == maxViewNumber){rightButton.setEnabled(false);}
@@ -351,10 +309,12 @@ public class Overview extends AppCompatActivity {
         else {leftButton.setEnabled(true);}
     }
 
+    /** This method sets the maxViewNumber depending on the amount of activityItems. */
     private void setMaxViewNumber(){
         maxViewNumber = activityItems.size();
     }
 
+    /** This method gives the custom color for the ActivityItem. */
     private int getColor(ActivityItem item) {
         int color = item.getColor();
         switch (color) {
