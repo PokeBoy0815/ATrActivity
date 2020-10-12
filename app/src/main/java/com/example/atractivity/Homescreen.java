@@ -140,9 +140,8 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
         // Check for first run or upgrade
         if (currentVersionCode == savedVersionCode) {
-
-            // This is just a normal run
-            return;
+            //on normal run
+             return;
 
         } else if (savedVersionCode == DOESNT_EXIST) {
 
@@ -161,7 +160,7 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
             prefs.edit().putBoolean("firstrun", false).apply();
 
         } else if (currentVersionCode > savedVersionCode) {
-            // TODO This is an upgrade
+            // on update
         }
 
         // Update the shared preferences with the current version code
@@ -247,7 +246,6 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         IsRunning.setRunning();
         IsRunning.setActiveNumber(i);
         DaylyTimeCount dtc = new DaylyTimeCount(0, activityItem.getActivityName());
-        Log.e("TimeCount", ""+ dtc.getNameOfActivity()+""+dtc.getDailyId()+"");
         databaseHelper.addDailyTimeCountToDatabase(dtc);
     }
     private void stopActivity(){
@@ -288,7 +286,6 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
                     databaseHelper.setTimeForCertainObject(date, activityItem.getActivityName(),
                             (((activityItem.getHours() * 60 + activityItem.getActivityMinutes()) * 60) - remainingTimeInSeconds) / 60, i);
-                    Log.e("Krieg ich ID?", "" + activityItem.getActivityName() + "," + i +", " + remainingTimeInSeconds +"");
                     return 0;
 
             }

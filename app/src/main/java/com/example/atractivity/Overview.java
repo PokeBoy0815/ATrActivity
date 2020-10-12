@@ -85,7 +85,6 @@ public class Overview extends AppCompatActivity {
             public void onListResult(List<ActivityItem> aitems) {
 
                 activityItems.addAll(aitems);
-                Log.e("size", "" + activityItems.size() + ", shit");
                 setArrayWithHashmapsPerDay();
             }
         });
@@ -106,7 +105,6 @@ public class Overview extends AppCompatActivity {
                     @Override
                     public int onIntegerResult(int i) {
                         timesForActivityNames.put(activityItems.get(e).getActivityName(), i);
-                        Log.e("map", "" + activityItems.get(e).getActivityName() + "," + i + "");
                         return 0;
                     }
                 });
@@ -180,7 +178,6 @@ public class Overview extends AppCompatActivity {
             if(lastSevenDays.get(0).get(activityName) != null){value = lastSevenDays.get(0).get(activityName);}
             else{value = 0;}
             pieEntries.add(new PieEntry(value,activityName));
-            Log.e("Es wurde erstellt",activityName);
             colors.add(getColor(activityItem));
         }
         PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.overview_title_today));
@@ -207,7 +204,6 @@ public class Overview extends AppCompatActivity {
             else{value = 0;}
             int dayValue = (-i+7);
             barEntries.add(new BarEntry(dayValue,value));
-            Log.e("Es wurde erstellt",activityName);
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
         barDataSet.setColor(getColor(activityItem));
