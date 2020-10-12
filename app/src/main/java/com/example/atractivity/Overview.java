@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.atractivity.Data.ActivityItem;
 import com.example.atractivity.Data.Database.ActivityItemDatabaseHelper;
@@ -213,13 +215,16 @@ public class Overview extends AppCompatActivity {
             updatePieChartData();
             pieChart.setVisibility(View.VISIBLE);
             barChart.setVisibility(View.GONE);
+            pieChart.notifyDataSetChanged();
             pieChart.invalidate();
         }
         else{
             updateBarChartData();
             pieChart.setVisibility(View.GONE);
             barChart.setVisibility(View.VISIBLE);
+            pieChart.notifyDataSetChanged();
             barChart.invalidate();
+
         }
     }
 
@@ -227,16 +232,19 @@ public class Overview extends AppCompatActivity {
         pieChart.clearValues();
         pieChart.clearAnimation();
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        ArrayList<Integer> colors = new ArrayList<>();
         for (int i = 0; i < activityItems.size(); i++) {
-            String activityName = activityItems.get(i).getActivityName();
+            ActivityItem activityItem = activityItems.get(i);
+            String activityName = activityItem.getActivityName();
             int value;
             if(lastSevenDays.get(0).get(activityName) != null){value = lastSevenDays.get(0).get(activityName);}
             else{value = 0;}
             pieEntries.add(new PieEntry(value,activityName));
             Log.e("Es wurde erstellt",activityName);
+            colors.add(getColor(activityItem));
         }
-        PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.overview_title_today));
+        pieDataSet.setColors(colors);
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueTextSize(20);
         PieData pieData = new PieData(pieDataSet);
@@ -244,13 +252,16 @@ public class Overview extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
         pieChart.getLegend().setEnabled(false);
         pieChart.animate();
+        TextView title = (TextView)findViewById(R.id.chart_title);
+        title.setText(string.overview_title_today);
     }
     private void updateBarChartData(){
         barChart.clearValues();
         barChart.clearAnimation();
+        ActivityItem activityItem = activityItems.get(activeViewNumber-1);
+        String activityName = activityItem.getActivityName();
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            String activityName = activityItems.get(activeViewNumber-1).getActivityName();
             int value;
             if(lastSevenDays.get(i).get(activityName) != null){value = lastSevenDays.get(i).get(activityName);}
             else{value = 0;}
@@ -259,13 +270,16 @@ public class Overview extends AppCompatActivity {
             Log.e("Es wurde erstellt",activityName);
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColor(getColor(activityItem));
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(20);
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
         barChart.animateY(1500);
+        TextView title = (TextView)findViewById(R.id.chart_title);
+        title.setText(activityName);
     }
 
     /** Set up the pie and bar chart. */
@@ -341,5 +355,26 @@ public class Overview extends AppCompatActivity {
         maxViewNumber = activityItems.size();
     }
 
+    private int getColor(ActivityItem item) {
+        int color = item.getColor();
+        switch (color) {
+            case 1:
+                return Color.parseColor("#FFEB3B");
+            case 2:
+                return Color.parseColor("holo_orange_dark");
+            case 3:
+                return Color.parseColor("#FFCC0000");
+            case 4:
+                return Color.parseColor("#FFAA66CC");
+            case 5:
+                return Color.parseColor("#FF0099CC");
+            case 6:
+                return Color.parseColor("#FF00DDFF");
+            case 7:
+                return Color.parseColor("#FF99CC00");
+            default:
+                return Color.parseColor("#FFCC0000");
+        }
+    }
 
 }
