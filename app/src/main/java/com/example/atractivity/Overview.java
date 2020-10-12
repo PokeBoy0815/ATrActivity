@@ -52,6 +52,8 @@ public class Overview extends AppCompatActivity {
     private int maxViewNumber = 0;
     private Button leftButton;
     private Button rightButton;
+    private BarChart barChart;
+    private PieChart pieChart;
 
 
     @Override
@@ -126,6 +128,7 @@ public class Overview extends AppCompatActivity {
     }
 
     private void initUI() {
+        setMaxViewNumber();
         initButtons();
         initPieChart();
         initBarChart();
@@ -208,13 +211,21 @@ public class Overview extends AppCompatActivity {
     private void updateView(){
         if (activeViewNumber==0){
             updatePieChartData();
+            pieChart.setVisibility(View.VISIBLE);
+            barChart.setVisibility(View.GONE);
+            pieChart.invalidate();
         }
-        //else{
-        //}
+        else{
+            updateBarChartData();
+            pieChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            barChart.invalidate();
+        }
     }
 
     private void updatePieChartData(){
-        PieChart pieChart = findViewById(R.id.pie_chart);
+        pieChart.clearValues();
+        pieChart.clearAnimation();
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         for (int i = 0; i < activityItems.size(); i++) {
             String activityName = activityItems.get(i).getActivityName();
@@ -232,14 +243,34 @@ public class Overview extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.getDescription().setEnabled(false);
         pieChart.getLegend().setEnabled(false);
-        pieChart.setVisibility(View.VISIBLE);
         pieChart.animate();
-        pieChart.invalidate();
+    }
+    private void updateBarChartData(){
+        barChart.clearValues();
+        barChart.clearAnimation();
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            String activityName = activityItems.get(i).getActivityName();
+            int value;
+            if(lastSevenDays.get(0).get(activityName) != null){value = lastSevenDays.get(0).get(activityName);}
+            else{value = 0;}
+            int dayValue = (-i+7);
+            barEntries.add(new BarEntry(dayValue,value));
+            Log.e("Es wurde erstellt",activityName);
+        }
+        BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(20);
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.getDescription().setEnabled(false);
+        barChart.animateY(1500);
     }
 
     /** Set up the pie and bar chart. */
     private void initPieChart(){
-        PieChart pieChart = findViewById(R.id.pie_chart);
+        pieChart = findViewById(R.id.pie_chart);
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         PieDataSet pieDataSet = new PieDataSet(pieEntries, this.getString(string.default_chart_title));
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -252,7 +283,7 @@ public class Overview extends AppCompatActivity {
         pieChart.setVisibility(View.GONE);
     }
     private void initBarChart(){
-        BarChart barChart = findViewById(R.id.bar_chart);
+        barChart = findViewById(R.id.bar_chart);
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         BarDataSet barDataSet = new BarDataSet(barEntries, this.getString(string.default_chart_title));
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -290,11 +321,13 @@ public class Overview extends AppCompatActivity {
         // do something
         activeViewNumber = activeViewNumber - 1 ;
         setButtonEnabledStates();
+        updateView();
     }
     private void onRightButtonClicked(){
         //do something
         activeViewNumber = activeViewNumber + 1;
         setButtonEnabledStates();
+        updateView();
     }
     /** Method to enable and disable the buttons based on the showed View. */
     private void setButtonEnabledStates(){
@@ -302,6 +335,10 @@ public class Overview extends AppCompatActivity {
         else {rightButton.setEnabled(true);}
         if (activeViewNumber == 0){leftButton.setEnabled(false);}
         else {leftButton.setEnabled(true);}
+    }
+
+    private void setMaxViewNumber(){
+        maxViewNumber = activityItems.size();
     }
 
 
