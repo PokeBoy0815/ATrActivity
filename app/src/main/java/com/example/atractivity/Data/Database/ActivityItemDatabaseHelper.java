@@ -226,33 +226,6 @@ public class ActivityItemDatabaseHelper {
         }
     }
 
-/** return all time count items of one day in a List*/
-    public void getAllTimeItemsOfADay(String date, DailyTimeCountQueryResultListener listener){
-        getAllTimeItemsOfOneDayTask task = new getAllTimeItemsOfOneDayTask(date, listener);
-        Executors.newSingleThreadExecutor().submit(task);
-    }
-
-    private class getAllTimeItemsOfOneDayTask implements Runnable {
-
-        private DailyTimeCountQueryResultListener listener;
-        private String date;
-
-        public getAllTimeItemsOfOneDayTask(String date, DailyTimeCountQueryResultListener listener) {
-            this.listener = listener;
-            this.date = date;
-        }
-
-        @Override
-        public void run() {
-            final List<DaylyTimeCount> timeItems = db.timecounts().getAllDailyTimeCountsOfaDay(date);
-            activityContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onListResult(timeItems);
-                }
-            });
-        }
-    }
     /**
      * sets the time column for a certain object to the time that is given to the method
      * must be used in one of the TimerClasses
@@ -313,35 +286,5 @@ public class ActivityItemDatabaseHelper {
             });
         }
     }
-
-    /** return all time count items of one day in a List
-    public void getAllTimenmaesOfADay(String date, DailyTimeCountQueryResultListener listener){
-        getAllTimeItemnamesOfOneDayTask task = new getAllTimeItemnamesOfOneDayTask(date, listener);
-        Executors.newSingleThreadExecutor().submit(task);
-    }
-
-    private class getAllTimeItemnamesOfOneDayTask implements Runnable {
-
-        private DailyTimeCountQueryResultListener listener;
-        private String date;
-
-        public getAllTimeItemnamesOfOneDayTask(String date, DailyTimeCountQueryResultListener listener) {
-            this.listener = listener;
-            this.date = date;
-        }
-
-        @Override
-        public void run() {
-            final List<String> timeNames = db.timecounts().getAllItemNames(date);
-            activityContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onNameListResult(timeNames);
-                }
-            });
-        }
-    }
-    */
-
 
 }

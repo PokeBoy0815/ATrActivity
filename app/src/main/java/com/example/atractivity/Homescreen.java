@@ -1,7 +1,6 @@
 package com.example.atractivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import com.example.atractivity.Data.Database.DaylyTimeCount;
 import com.example.atractivity.Data.ReturnKeys;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastListener;
 import com.example.atractivity.broadcast.ActivityTimerBroadcastReceiver;
-import com.example.atractivity.timer.ActivityTimer;
 import com.example.atractivity.timer.ActivityTimerService;
 import com.example.atractivity.timer.IsRunning;
 
@@ -36,7 +34,6 @@ import android.widget.ListView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -284,10 +281,6 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
         final ActivityItem activityItem = activities.get(IsRunning.testActiveNumber());
         final String date = "" + Calendar.DAY_OF_MONTH + Calendar.MONTH + Calendar.YEAR + "";
         databaseHelper.returnLatestItemID(date, activityItem.getActivityName(), new DailyTimeCountQueryResultListener() {
-            @Override
-            public void onListResult(List<DaylyTimeCount> timeCounts) {
-
-            }
 
 
             @Override
@@ -308,19 +301,14 @@ public class Homescreen extends AppCompatActivity implements ActivityTimerBroadc
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
         if (id == R.id.home) {
             Intent intent = new Intent(Homescreen.this, Homescreen.class);
             startActivity(intent);

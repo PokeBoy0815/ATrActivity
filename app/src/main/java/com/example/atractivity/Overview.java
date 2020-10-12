@@ -18,7 +18,6 @@ import com.example.atractivity.Data.Database.ActivityItemQueryResultListener;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.atractivity.Data.Database.DailyTimeCountQueryResultListener;
-import com.example.atractivity.Data.Database.DaylyTimeCount;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
@@ -38,9 +37,6 @@ import static com.example.atractivity.R.string;
 
 
 public class Overview extends AppCompatActivity {
-
-    private String currentDate;
-    private Calendar calendar;
 
 
     private ActivityItemDatabaseHelper databaseHelper;
@@ -67,7 +63,7 @@ public class Overview extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Do something after 5s = 5000ms
+                // Do after 5s = 5000ms
                 initUI();
             }
         }, 35);
@@ -76,10 +72,8 @@ public class Overview extends AppCompatActivity {
 
     /** This methods are used to get all the needed Data. */
     private void initData() {
-        calendar = Calendar.getInstance();
-        //produces a Date String that can be found in the database
-        currentDate = ""+ calendar.DAY_OF_MONTH + calendar.MONTH + calendar.YEAR+"";
-        //initializes the ArrayList for the getItemsOfCurrentDay Method
+        Calendar calendar = Calendar.getInstance();
+        //initializes the ArrayList for the getAllActivityItemsFromRoom Method
         databaseHelper = new ActivityItemDatabaseHelper(this);
         databaseHelper.getAllActivityItemsFromRoom(new ActivityItemQueryResultListener() {
             @Override
@@ -110,11 +104,6 @@ public class Overview extends AppCompatActivity {
                 databaseHelper.getDailyTimeSumForItem(date, activityItems.get(e).getActivityName(), new DailyTimeCountQueryResultListener() {
 
                     @Override
-                    public void onListResult(List<DaylyTimeCount> timeCounts) {
-
-                    }
-
-                    @Override
                     public int onIntegerResult(int i) {
                         timesForActivityNames.put(activityItems.get(e).getActivityName(), i);
                         Log.e("map", "" + activityItems.get(e).getActivityName() + "," + i + "");
@@ -139,18 +128,12 @@ public class Overview extends AppCompatActivity {
     /** Override of the methods of the actionbar. */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
             Intent intent = new Intent(Overview.this, Homescreen.class);
             startActivity(intent);
